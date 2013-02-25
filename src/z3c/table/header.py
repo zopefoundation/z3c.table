@@ -96,7 +96,7 @@ class SortingColumnHeader(ColumnHeader):
         args = self.getQueryStringArgs()
         args.update({'%s-sortOn' % prefix: colID,
                      '%s-sortOrder' % prefix: sortOrder})
-        queryString = '?%s' % (urlencode(args))
+        queryString = '?%s' % (urlencode(sorted(args.items())))
 
         return '<a href="%s" title="%s">%s</a>' % (
             queryString,

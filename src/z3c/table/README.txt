@@ -550,8 +550,8 @@ and the second column:
   >>> simpleColumn.header
   u'The second column'
 
-  >>> simpleColumn.cssClasses
-  {'td': 'tdCol', 'th': 'thCol'}
+  >>> sorted(simpleColumn.cssClasses.items())
+  [('td', 'tdCol'), ('th', 'thCol')]
 
 
 Headers
@@ -605,7 +605,7 @@ column as ascending:
    <thead>
     <tr>
      <th><a
-      href="?table-sortOrder=descending&table-sortOn=table-titleColumn-0"
+      href="?table-sortOn=table-titleColumn-0&table-sortOrder=descending"
       title="Sort">Title</a></th>
   ...
   </table>
@@ -619,7 +619,7 @@ ascending again:
    <thead>
     <tr>
      <th><a
-      href="?table-sortOrder=ascending&table-sortOn=table-titleColumn-0"
+      href="?table-sortOn=table-titleColumn-0&table-sortOrder=ascending"
       title="Sort">Title</a></th>
   ...
   </table>
@@ -637,7 +637,7 @@ the link should allow to switch again to ascending:
    <thead>
     <tr>
      <th><a
-      href="?table-sortOrder=ascending&table-sortOn=table-titleColumn-0"
+      href="?table-sortOn=table-titleColumn-0&table-sortOrder=ascending"
       title="Sort">Title</a></th>
   ...
   </table>
