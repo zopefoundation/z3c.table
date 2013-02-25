@@ -19,10 +19,11 @@ __docformat__ = "reStructuredText"
 import datetime
 import zope.interface
 import zope.component
+import zope.traversing.testing
 from zope.container import btree, ordered
 from zope.dublincore.interfaces import IZopeDublinCore
 from zope.security import checker
-from zope.app.testing import setup
+from zope.site.testing import siteSetUp, siteTearDown
 
 from z3c.table import column, table
 import z3c.table.value
@@ -114,10 +115,11 @@ def setUpAdapters():
 
 
 def setUp(test):
-    test.globs['root'] = setup.placefulSetUp(True)
+    test.globs['root'] = siteSetUp(True)
+    zope.traversing.testing.setUp()
     zope.component.provideAdapter(DublinCoreAdapterStub)
     setUpAdapters()
 
 
 def tearDown(test):
-    setup.placefulTearDown()
+    siteTearDown()

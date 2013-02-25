@@ -19,8 +19,9 @@ __docformat__ = "reStructuredText"
 import unittest
 import doctest
 from zope.publisher.browser import TestRequest
+from zope.interface.verify import verifyObject
+#from z3c.testing.verify import verifyClass
 
-import z3c.testing
 from z3c.batching.batch import Batch
 from z3c.table import testing
 from z3c.table import interfaces
@@ -34,9 +35,54 @@ class FakeContainer(object):
     def values(self):
         pass
 
+marker_pos = object()
+marker_kws = object()
+
+class InterfaceBaseTest(unittest.TestCase):
+    """Base test for IContainer including interface test."""
+
+    iface = None
+    klass = None
+    pos = marker_pos
+    kws = marker_kws
+
+    def getTestPos(self):
+        return self.pos
+
+    def getTestKws(self):
+        return self.kws
+
+    def makeTestObject(self, object=None, *pos, **kws):
+        # provide default positional or keyword arguments
+        ourpos = self.getTestPos()
+        if ourpos is not marker_pos and not pos:
+            pos = ourpos
+
+        ourkws = self.getTestKws()
+        if ourkws is not marker_kws and not kws:
+            kws = ourkws
+
+        testclass = self.getTestClass()
+
+        if object is None:
+            # a class instance itself is the object to be tested.
+            return testclass(*pos, **kws)
+        else:
+            # an adapted instance is the object to be tested.
+            return testclass(object, *pos, **kws)
+
+    #def test_verifyClass(self):
+    #    # class test
+    #    self.assert_(verifyClass(self.getTestInterface(), self.getTestClass()))
+
+    def test_verifyObject(self):
+        # object test
+        self.assert_(verifyObject(self.getTestInterface(),
+            self.makeTestObject()))
+
 
 # table
-class TestTable(z3c.testing.InterfaceBaseTest):
+class TestTable(InterfaceBaseTest):
 
     def setUp(test):
         testing.setUpAdapters()
@@ -51,7 +97,7 @@ class TestTable(z3c.testing.InterfaceBaseTest):
         return (FakeContainer(), TestRequest())
 
 
-class TestSequenceTable(z3c.testing.InterfaceBaseTest):
+class TestSequenceTable(InterfaceBaseTest):
 
     def setUp(test):
         testing.setUpAdapters()
@@ -67,7 +113,7 @@ class TestSequenceTable(z3c.testing.InterfaceBaseTest):
 
 
 # column
-class TestColumn(z3c.testing.InterfaceBaseTest):
+class TestColumn(InterfaceBaseTest):
 
     def getTestInterface(self):
         return interfaces.IColumn
@@ -80,7 +126,7 @@ class TestColumn(z3c.testing.InterfaceBaseTest):
         return ({}, TestRequest(), t)
 
 
-class TestNoneCell(z3c.testing.InterfaceBaseTest):
+class TestNoneCell(InterfaceBaseTest):
 
     def getTestInterface(self):
         return interfaces.INoneCell
@@ -93,7 +139,7 @@ class TestNoneCell(z3c.testing.InterfaceBaseTest):
         return ({}, TestRequest(), t)
 
 
-class TestNameColumn(z3c.testing.InterfaceBaseTest):
+class TestNameColumn(InterfaceBaseTest):
 
     def getTestInterface(self):
         return interfaces.IColumn
@@ -106,7 +152,7 @@ class TestNameColumn(z3c.testing.InterfaceBaseTest):
         return ({}, TestRequest(), t)
 
 
-class TestRadioColumn(z3c.testing.InterfaceBaseTest):
+class TestRadioColumn(InterfaceBaseTest):
 
     def getTestInterface(self):
         return interfaces.IColumn
@@ -119,7 +165,7 @@ class TestRadioColumn(z3c.testing.InterfaceBaseTest):
         return ({}, TestRequest(), t)
 
 
-class TestCheckBoxColumn(z3c.testing.InterfaceBaseTest):
+class TestCheckBoxColumn(InterfaceBaseTest):
 
     def getTestInterface(self):
         return interfaces.IColumn
@@ -133,7 +179,7 @@ class TestCheckBoxColumn(z3c.testing.InterfaceBaseTest):
 
 
 # batch
-class TestBatchProvider(z3c.testing.InterfaceBaseTest):
+class TestBatchProvider(InterfaceBaseTest):
 
     def getTestInterface(self):
         return interfaces.IBatchProvider
