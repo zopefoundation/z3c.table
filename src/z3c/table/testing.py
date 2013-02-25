@@ -88,11 +88,10 @@ def cellRenderer(item):
     return u'%s item' % item.title
 
 
+@zope.interface.implementer(IZopeDublinCore)
+@zope.component.adapter(zope.interface.Interface)
 class DublinCoreAdapterStub(object):
     """Dublin core adapter stub."""
-
-    zope.interface.implements(IZopeDublinCore)
-    zope.component.adapts(zope.interface.Interface)
 
     __Security_checker__ = checker.Checker(
         {"created": "zope.Public",

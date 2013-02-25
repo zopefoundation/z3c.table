@@ -73,7 +73,7 @@ renders the name of the item using the zope.traversing.api.getName() concept:
   >>> request = TestRequest()
   >>> nameTable = NameTable(container, request)
   >>> nameTable.update()
-  >>> print nameTable.render()
+  >>> print(nameTable.render())
   <table>
     <thead>
       <tr>
@@ -127,7 +127,7 @@ Now create, update and render our table:
   >>> request = TestRequest()
   >>> radioTable = RadioTable(container, request)
   >>> radioTable.update()
-  >>> print radioTable.render()
+  >>> print(radioTable.render())
   <table>
     <thead>
       <tr>
@@ -165,7 +165,7 @@ given request value:
   >>> radioRequest = TestRequest(form={'table-radioColumn-0-selectedItem': 'third'})
   >>> radioTable = RadioTable(container, radioRequest)
   >>> radioTable.update()
-  >>> print radioTable.render()
+  >>> print(radioTable.render())
   <table>
     <thead>
       <tr>
@@ -220,7 +220,7 @@ Now create, update and render our table:
   >>> request = TestRequest()
   >>> checkBoxTable = CheckBoxTable(container, request)
   >>> checkBoxTable.update()
-  >>> print checkBoxTable.render()
+  >>> print(checkBoxTable.render())
   <table>
     <thead>
       <tr>
@@ -259,7 +259,7 @@ a given request value:
   ...                                     ['first', 'third']})
   >>> checkBoxTable = CheckBoxTable(container, checkBoxRequest)
   >>> checkBoxTable.update()
-  >>> print checkBoxTable.render()
+  >>> print(checkBoxTable.render())
   <table>
     <thead>
       <tr>
@@ -302,7 +302,7 @@ be used in combination with alternating ``even`` and ``odd`` styles:
   >>> checkBoxTable.cssClassEven = u'even'
   >>> checkBoxTable.cssClassOdd = u'odd'
   >>> checkBoxTable.update()
-  >>> print checkBoxTable.render()
+  >>> print(checkBoxTable.render())
   <table>
     <thead>
       <tr class="tr">
@@ -341,7 +341,7 @@ Let's test the ``cssClassSelected`` without any other css class:
   >>> checkBoxTable = CheckBoxTable(container, checkBoxRequest)
   >>> checkBoxTable.cssClassSelected = u'selected'
   >>> checkBoxTable.update()
-  >>> print checkBoxTable.render()
+  >>> print(checkBoxTable.render())
   <table>
     <thead>
       <tr>
@@ -394,7 +394,7 @@ adapter which only returns ``01/01/01 01:01`` as created date:
   >>> request = TestRequest()
   >>> createdColumnTable = CreatedColumnTable(container, request)
   >>> createdColumnTable.update()
-  >>> print createdColumnTable.render()
+  >>> print(createdColumnTable.render())
   <table>
     <thead>
       <tr>
@@ -441,7 +441,7 @@ adapter which only returns ``02/02/02 02:02`` as modified date:
   >>> request = TestRequest()
   >>> modifiedColumnTable = ModifiedColumnTable(container, request)
   >>> modifiedColumnTable.update()
-  >>> print modifiedColumnTable.render()
+  >>> print(modifiedColumnTable.render())
   <table>
     <thead>
       <tr>
@@ -493,7 +493,7 @@ Render and update the table:
   >>> request = TestRequest()
   >>> getAttrColumnTable = GetAttrColumnTable(container, request)
   >>> getAttrColumnTable.update()
-  >>> print getAttrColumnTable.render()
+  >>> print(getAttrColumnTable.render())
   <table>
     <thead>
       <tr>
@@ -540,7 +540,7 @@ Render and update the table:
   >>> request = TestRequest()
   >>> getAttrColumnTable = GetAttrColumnTable(container, request)
   >>> getAttrColumnTable.update()
-  >>> print getAttrColumnTable.render()
+  >>> print(getAttrColumnTable.render())
   <table>
     <thead>
       <tr>
@@ -588,7 +588,7 @@ raises such an error if we access the title:
   ...
   ...     @property
   ...     def forbidden(self):
-  ...         raise Unauthorized, 'forbidden'
+  ...         raise Unauthorized('forbidden')
 
 Setup and test the item:
 
@@ -650,7 +650,7 @@ Render and update the table:
   >>> request = TestRequest()
   >>> getDictColumnTable = GetDictColumnTable(sampleDictData, request)
   >>> getDictColumnTable.update()
-  >>> print getDictColumnTable.render()
+  >>> print(getDictColumnTable.render())
   <table>
     <thead>
       <tr>
@@ -694,7 +694,7 @@ Render and update the table:
   >>> request = TestRequest()
   >>> getDictColumnTable = GetDictColumnTable(container, request)
   >>> getDictColumnTable.update()
-  >>> print getDictColumnTable.render()
+  >>> print(getDictColumnTable.render())
   <table>
     <thead>
       <tr>
@@ -756,7 +756,7 @@ Render and update the table:
   >>> request = TestRequest()
   >>> getTupleColumnTable = GetTupleColumnTable(sampleTupleData, request)
   >>> getTupleColumnTable.update()
-  >>> print getTupleColumnTable.render()
+  >>> print(getTupleColumnTable.render())
   <table>
     <thead>
       <tr>
@@ -800,7 +800,7 @@ Render and update the table:
   >>> request = TestRequest()
   >>> getTupleColumnTable = GetTupleColumnTable(container, request)
   >>> getTupleColumnTable.update()
-  >>> print getTupleColumnTable.render()
+  >>> print(getTupleColumnTable.render())
   <table>
     <thead>
       <tr>
@@ -861,7 +861,7 @@ Render and update the table:
   >>> getAttrFormatterColumnTable = GetAttrFormatterColumnTable(container,
   ...     request)
   >>> getAttrFormatterColumnTable.update()
-  >>> print getAttrFormatterColumnTable.render()
+  >>> print(getAttrFormatterColumnTable.render())
   <table>
     <thead>
       <tr>
@@ -914,7 +914,7 @@ Render and update the table:
   >>> longFormatterColumnTable = LongFormatterColumnTable(container,
   ...     request)
   >>> longFormatterColumnTable.update()
-  >>> print longFormatterColumnTable.render()
+  >>> print(longFormatterColumnTable.render())
   <table>
     <thead>
       <tr>
@@ -968,7 +968,7 @@ is rendered:
   >>> request = TestRequest()
   >>> eMailColumnTable = EMailColumnTable(container, request)
   >>> eMailColumnTable.update()
-  >>> print eMailColumnTable.render()
+  >>> print(eMailColumnTable.render())
   <table>
     <thead>
       <tr>
@@ -1015,7 +1015,7 @@ Render and update the table:
   >>> request = TestRequest()
   >>> staticEMailColumnTable = StaticEMailColumnTable(container, request)
   >>> staticEMailColumnTable.update()
-  >>> print staticEMailColumnTable.render()
+  >>> print(staticEMailColumnTable.render())
   <table>
     <thead>
       <tr>
@@ -1072,7 +1072,7 @@ Now create, update and render our table:
   >>> myLinkTable.__parent__ = container
   >>> myLinkTable.__name__ = u'myLinkTable.html'
   >>> myLinkTable.update()
-  >>> print myLinkTable.render()
+  >>> print(myLinkTable.render())
   <table>
     <thead>
       <tr>
@@ -1126,7 +1126,7 @@ There are some predefined link columns available. This one will generate a
   >>> contentsLinkTable.__parent__ = container
   >>> contentsLinkTable.__name__ = u'contentsLinkTable.html'
   >>> contentsLinkTable.update()
-  >>> print contentsLinkTable.render()
+  >>> print(contentsLinkTable.render())
   <table>
     <thead>
       <tr>
@@ -1179,7 +1179,7 @@ This one will generate a ``index.html`` link for each item:
   >>> indexLinkTable.__parent__ = container
   >>> indexLinkTable.__name__ = u'indexLinkTable.html'
   >>> indexLinkTable.update()
-  >>> print indexLinkTable.render()
+  >>> print(indexLinkTable.render())
   <table>
     <thead>
       <tr>
@@ -1232,7 +1232,7 @@ And this one will generate a ``edit.html`` link for each item:
   >>> editLinkTable.__parent__ = container
   >>> editLinkTable.__name__ = u'editLinkTable.html'
   >>> editLinkTable.update()
-  >>> print editLinkTable.render()
+  >>> print(editLinkTable.render())
   <table>
     <thead>
       <tr>

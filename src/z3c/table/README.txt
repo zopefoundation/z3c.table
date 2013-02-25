@@ -111,7 +111,7 @@ Now we can register the column:
 Now we can render the table again:
 
   >>> plainTable.update()
-  >>> print plainTable.render()
+  >>> print(plainTable.render())
   <table>
     <thead>
       <tr>
@@ -140,7 +140,7 @@ We can also use the predefined name column:
 Now we will get an additional column:
 
   >>> plainTable.update()
-  >>> print plainTable.render()
+  >>> print(plainTable.render())
   <table>
     <thead>
       <tr>
@@ -215,7 +215,7 @@ Register and render the table again:
   ...      name='colspanColumn')
 
   >>> plainTable.update()
-  >>> print plainTable.render()
+  >>> print(plainTable.render())
   <table>
     <thead>
       <tr>
@@ -278,7 +278,7 @@ table too:
 
   >>> privateTable = PrivateTable(container, request)
   >>> privateTable.update()
-  >>> print privateTable.render()
+  >>> print(privateTable.render())
   <table>
     <thead>
       <tr>
@@ -338,7 +338,7 @@ from the column:
 
   >>> cssTable = CSSTable(container, request)
   >>> cssTable.update()
-  >>> print cssTable.render()
+  >>> print(cssTable.render())
   <table class="table">
     <thead class="thead">
       <tr class="tr">
@@ -401,7 +401,7 @@ added to the even and odd classes:
 
   >>> alternatingTable = AlternatingTable(container, request)
   >>> alternatingTable.update()
-  >>> print alternatingTable.render()
+  >>> print(alternatingTable.render())
   <table class="table">
     <thead class="thead">
       <tr class="tr">
@@ -472,7 +472,7 @@ Add some more content::
 
   >>> addColumnTable = AddColumnTable(container, request)
   >>> addColumnTable.update()
-  >>> print addColumnTable.render()
+  >>> print(addColumnTable.render())
   <table class="table">
     <thead class="thead">
       <tr class="tr">
@@ -600,7 +600,7 @@ is set to switch to descending as the table initially will display the first
 column as ascending:
 
   >>> myTable.update()
-  >>> print myTable.render()
+  >>> print(myTable.render())
   <table>
    <thead>
     <tr>
@@ -614,7 +614,7 @@ If the table is initially set to descending, the link should allow to switch to
 ascending again:
 
   >>> myTable.sortOrder = 'descending'
-  >>> print myTable.render()
+  >>> print(myTable.render())
   <table>
    <thead>
     <tr>
@@ -632,7 +632,7 @@ the link should allow to switch again to ascending:
   >>> myTable = myTableClass(container, descendingRequest)
   >>> myTable.sortOrder = 'ascending'
   >>> myTable.update()
-  >>> print myTable.render()
+  >>> print(myTable.render())
   <table>
    <thead>
     <tr>

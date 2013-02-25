@@ -56,7 +56,7 @@ Now setup some items:
 Now let's show the full table without batching:
 
   >>> batchingTable.update()
-  >>> print batchingTable.render()
+  >>> print(batchingTable.render())
   <table>
     <thead>
       <tr>
@@ -178,7 +178,7 @@ a table size of 5 rows, which is correct. But the order doesn't depend on the
 numbers we see in cells:
 
   >>> batchingTable.update()
-  >>> print batchingTable.render()
+  >>> print(batchingTable.render())
   <table>
     <thead>
       <tr>
@@ -218,7 +218,7 @@ batch values. We do this by simply set the ``defaultSortOn``:
 Now we should see a nice ordered and batched table:
 
   >>> batchingTable.update()
-  >>> print batchingTable.render()
+  >>> print(batchingTable.render())
   <table>
     <thead>
       <tr>
@@ -265,7 +265,7 @@ items and all batch contain ready-to-use data. This concept could be important
 if you need to cache batches etc. :
 
   >>> batchingTable.rows = batchingTable.rows.batches[1]
-  >>> print batchingTable.render()
+  >>> print(batchingTable.render())
   <table>
     <thead>
       <tr>
@@ -301,7 +301,7 @@ And like described above, if you call ``update`` our batch to rows setup get
 reset:
 
   >>> batchingTable.update()
-  >>> print batchingTable.render()
+  >>> print(batchingTable.render())
   <table>
     <thead>
       <tr>
@@ -343,7 +343,7 @@ the first one first:
 
   >>> batchingTable.batchStart = 6
   >>> batchingTable.update()
-  >>> print batchingTable.render()
+  >>> print(batchingTable.render())
   <table>
     <thead>
       <tr>
@@ -396,7 +396,7 @@ have by default otherwise we don't get a batch:
 
   >>> requestBatchingTable.startBatchingAt = 5
   >>> requestBatchingTable.update()
-  >>> print requestBatchingTable.render()
+  >>> print(requestBatchingTable.render())
   <table>
     <thead>
       <tr>
@@ -463,7 +463,7 @@ We use our previous batching table and render the batch with the built-in
 ``renderBatch`` method:
 
   >>> requestBatchingTable.update()
-  >>> print requestBatchingTable.renderBatch()
+  >>> print(requestBatchingTable.renderBatch())
   <a href="...html?table-batchSize=5&table-batchStart=0&..." class="first">1</a>
   <a href="...html?table-batchSize=5&table-batchStart=5&...">2</a>
   <a href="...html?table-batchSize=5&table-batchStart=11&..." class="current">3</a>
@@ -494,7 +494,7 @@ in traversing:
   >>> requestBatchingTable.__name__ = u'requestBatchingTable.html'
 
   >>> requestBatchingTable.update()
-  >>> print requestBatchingTable.render()
+  >>> print(requestBatchingTable.render())
   <table>
     <thead>
       <tr>
@@ -529,7 +529,7 @@ in traversing:
 And test the batch. Note the three dots between the links are rendered by the
 batch provider and are not a part of the doctest:
 
-  >>> print requestBatchingTable.renderBatch()
+  >>> print(requestBatchingTable.renderBatch())
   <a href="...html?table-batchSize=5&table-batchStart=0&table-sortOn=table-number-1" class="first">1</a>
   ...
   <a href="...html?table-batchSize=5&table-batchStart=85&table-sortOn=table-number-1">18</a>
@@ -569,7 +569,7 @@ As you can see the spacer get changed now:
   >>> requestBatchingTable.update()
   >>> requestBatchingTable.batchProvider
   <XBatchProvider object at ...>
-  >>> print requestBatchingTable.renderBatch()
+  >>> print(requestBatchingTable.renderBatch())
   <a href="...html?table-batchSize=5&table-batchStart=0&table-sortOn=table-number-1" class="first">1</a>
   xxx
   <a href="...html?table-batchSize=5&table-batchStart=85&table-sortOn=table-number-1">18</a>
@@ -593,7 +593,7 @@ Beginning by the left end point:
   >>> leftRequestBatchingTable.__parent__ = container
   >>> leftRequestBatchingTable.__name__ = u'leftRequestBatchingTable.html'
   >>> leftRequestBatchingTable.update()
-  >>> print leftRequestBatchingTable.renderBatch()
+  >>> print(leftRequestBatchingTable.renderBatch())
   <a href="http://...html?table-batchSize=5&table-batchStart=0&table-sortOn=table-number-1" class="first">1</a>
   <a href="http://...html?table-batchSize=5&table-batchStart=5&table-sortOn=table-number-1">2</a>
   <a href="http://...html?table-batchSize=5&table-batchStart=10&table-sortOn=table-number-1" class="current">3</a>
@@ -612,7 +612,7 @@ Go on with the right extremity:
   >>> rightRequestBatchingTable.__parent__ = container
   >>> rightRequestBatchingTable.__name__ = u'rightRequestBatchingTable.html'
   >>> rightRequestBatchingTable.update()
-  >>> print rightRequestBatchingTable.renderBatch()
+  >>> print(rightRequestBatchingTable.renderBatch())
   <a href="http://...html?table-batchSize=5&table-batchStart=0&table-sortOn=table-number-1" class="first">1</a>
   xxx
   <a href="http://...html?table-batchSize=5&table-batchStart=990&table-sortOn=table-number-1">199</a>
@@ -644,7 +644,7 @@ Now register the new batch provider for our batching table:
 Update the table and render the batch:
 
   >>> requestBatchingTable.update()
-  >>> print requestBatchingTable.renderBatch()
+  >>> print(requestBatchingTable.renderBatch())
   <a href="...html?table-batchSize=5&table-batchStart=0&table-sortOn=table-number-1" class="first">1</a>
   xxx
   <a href="...html?table-batchSize=5&table-batchStart=100&table-sortOn=table-number-1" class="current">21</a>

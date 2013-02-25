@@ -54,10 +54,9 @@ def nameColumn(column, name):
     return column
 
 
+@zope.interface.implementer(interfaces.ITable)
 class Table(zope.location.Location):
     """Generic usable table implementation."""
-
-    zope.interface.implements(interfaces.ITable)
 
     # customize this part if needed
     prefix = 'table'
@@ -350,6 +349,7 @@ class Table(zope.location.Location):
         return '<%s %r>' % (self.__class__.__name__, self.__name__)
 
 
+@zope.interface.implementer(interfaces.ISequenceTable)
 class SequenceTable(Table):
     """Sequence table adapts a sequence as context.
 
@@ -358,4 +358,3 @@ class SequenceTable(Table):
     ResultSet sequence.
     """
 
-    zope.interface.implements(interfaces.ISequenceTable)

@@ -46,7 +46,7 @@ class ITable(zope.contentprovider.interfaces.IContentProvider):
     prefix = zope.schema.BytesLine(
         title=_('Prefix'),
         description=_('The prefix of the table used to uniquely identify it.'),
-        default='table')
+        default=b'table')
 
     # css classes
     cssClasses = zope.interface.Attribute(

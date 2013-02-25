@@ -56,7 +56,7 @@ And render them without set a ``sortOn`` value:
   >>> request = TestRequest()
   >>> sortingTable = SortingTable(container, request)
   >>> sortingTable.update()
-  >>> print sortingTable.render()
+  >>> print(sortingTable.render())
   <table>
     <thead>
       <tr>
@@ -97,7 +97,7 @@ Now switch off sorting, now we get the original order:
 
   >>> sortingTable.sortOn = None
   >>> sortingTable.update()
-  >>> print sortingTable.render()
+  >>> print(sortingTable.render())
   <table>
     <thead>
       <tr>
@@ -144,7 +144,7 @@ And let's use this id as ``sortOn`` value:
 An important thing is to update the table after set an ``sortOn`` value:
 
   >>> sortingTable.update()
-  >>> print sortingTable.render()
+  >>> print(sortingTable.render())
   <table>
     <thead>
       <tr>
@@ -180,7 +180,7 @@ We can also reverse the sorting order:
 
   >>> sortingTable.sortOrder = 'reverse'
   >>> sortingTable.update()
-  >>> print sortingTable.render()
+  >>> print(sortingTable.render())
   <table>
     <thead>
       <tr>
@@ -223,7 +223,7 @@ by the second column and ordered in reverse order:
 
   >>> requestSortedTable = SortingTable(container, sorterRequest)
   >>> requestSortedTable.update()
-  >>> print requestSortedTable.render()
+  >>> print(requestSortedTable.render())
   <table>
     <thead>
       <tr>
@@ -273,7 +273,7 @@ Let's see now various sortings:
   0
   >>> sortingTable.sortOrder
   u'ascending'
-  >>> print sortingTable.render()
+  >>> print(sortingTable.render())
   <table>
     <thead>
       <tr>
@@ -310,7 +310,7 @@ Let's see the `number` column:
   >>> sortingTable.sortOn = u'table-number-1'
 
   >>> sortingTable.update()
-  >>> print sortingTable.render()
+  >>> print(sortingTable.render())
   <table>
     <thead>
       <tr>
@@ -348,7 +348,7 @@ Let's see the `title` column but descending:
   >>> sortingTable.sortOrder = 'descending'
 
   >>> sortingTable.update()
-  >>> print sortingTable.render()
+  >>> print(sortingTable.render())
   <table>
     <thead>
       <tr>

@@ -51,7 +51,7 @@ attribute list.
 
 Rendering the empty table now return the string:
 
-  >>> print simpleTable.render()
+  >>> print(simpleTable.render())
   <table>
     <thead>
       <tr>

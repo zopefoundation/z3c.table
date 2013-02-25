@@ -75,7 +75,7 @@ section ``BatchProvider`` below for more infos about batch rendering:
 And update and render the sequence table:
 
   >>> sequenceTable.update()
-  >>> print sequenceTable.render()
+  >>> print(sequenceTable.render())
   <table>
     <thead>
       <tr>
@@ -184,7 +184,7 @@ Now we can update and render the table again. But you will see that we only get
 a table size of 5 rows:
 
   >>> sequenceTable.update()
-  >>> print sequenceTable.render()
+  >>> print(sequenceTable.render())
   <table>
     <thead>
       <tr>
@@ -220,7 +220,7 @@ And we set the sort order to ``reverse`` even if we use batching:
 
   >>> sequenceTable.sortOrder = u'reverse'
   >>> sequenceTable.update()
-  >>> print sequenceTable.render()
+  >>> print(sequenceTable.render())
   <table>
     <thead>
       <tr>

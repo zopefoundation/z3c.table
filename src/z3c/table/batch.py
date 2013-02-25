@@ -16,7 +16,12 @@ $Id:$
 """
 __docformat__ = "reStructuredText"
 
-from urllib import urlencode
+try:
+    # Python 2
+    from urllib import urlencode
+except ImportError:
+    # Python 3
+    from urllib.parse import urlencode
 
 import zope.interface
 import zope.i18nmessageid
@@ -28,6 +33,7 @@ from z3c.batching.batch import first_neighbours_last
 _ = zope.i18nmessageid.MessageFactory('z3c')
 
 
+@zope.interface.implementer(interfaces.IBatchProvider)
 class BatchProvider(object):
     """Batch content provider.
 
@@ -63,8 +69,6 @@ class BatchProvider(object):
     At the end:
     [1] ... [97][98][99][*100*]
     """
-
-    zope.interface.implements(interfaces.IBatchProvider)
 
     batchItems = []
 

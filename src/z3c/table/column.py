@@ -16,7 +16,11 @@ $Id:$
 """
 __docformat__ = "reStructuredText"
 
-from urllib import urlencode
+try:
+    from urllib import urlencode
+except ImportError:
+    from urllib.parse import urlencode
+
 from z3c.table import interfaces
 from zope.dublincore.interfaces import IZopeDublinCore
 from zope.security.interfaces import Unauthorized
@@ -60,7 +64,7 @@ def getName(item):
     # probably not IPhysicallyLocatable but still could have a __name__
     try:
         return api.getName(item)
-    except TypeError, e:
+    except TypeError as e:
         return item.__name__
 
 
@@ -71,10 +75,10 @@ def safeGetAttr(obj, attr, default):
         return default
 
 
+@zope.interface.implementer(interfaces.IColumn)
 class Column(zope.location.Location):
     """Column provider."""
 
-    zope.interface.implements(interfaces.IColumn)
 
     # variables will be set by table
     id = None
@@ -119,10 +123,9 @@ class Column(zope.location.Location):
         return '<%s %r>' % (self.__class__.__name__, self.__name__)
 
 
+@zope.interface.implementer(interfaces.INoneCell)
 class NoneCell(Column):
     """None cell is used for mark a previous colspan."""
-
-    zope.interface.implements(interfaces.INoneCell)
 
     def getColspan(self, item):
         return 0
@@ -143,6 +146,12 @@ class NameColumn(Column):
     def renderCell(self, item):
         return getName(item)
 
+
+try:
+    apply
+except NameError:
+    def apply(f, *a):
+        return f(*a)
 
 class RadioColumn(Column):
     """Radio column."""

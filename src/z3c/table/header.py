@@ -18,17 +18,20 @@ __docformat__ = "reStructuredText"
 
 
 from z3c.table.i18n import _
-import urllib
+try:
+    # Python 2
+    from urllib import urlencode
+except ImportError:
+    # Python 3
+    from urllib.parse import urlencode
 import z3c.table.interfaces
 import zope.i18n
 import zope.interface
 
 
+@zope.interface.implementer(z3c.table.interfaces.IColumnHeader)
 class ColumnHeader(object):
     """ColumnHeader renderer provider"""
-
-    zope.interface.implements(z3c.table.interfaces.IColumnHeader)
-
     _request_args = []
 
     def __init__(self, context, request, table, column):
@@ -93,7 +96,7 @@ class SortingColumnHeader(ColumnHeader):
         args = self.getQueryStringArgs()
         args.update({'%s-sortOn' % prefix: colID,
                      '%s-sortOrder' % prefix: sortOrder})
-        queryString = '?%s' % (urllib.urlencode(args))
+        queryString = '?%s' % (urlencode(args))
 
         return '<a href="%s" title="%s">%s</a>' % (
             queryString,
