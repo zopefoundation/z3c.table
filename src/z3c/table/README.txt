@@ -206,7 +206,7 @@ But if we set the column as first row, it will render the colspan correctly:
   >>> class CorrectColspanColumn(ColspanColumn):
   ...     """Colspan with correct weight."""
   ...
-  ...     weight = 0
+  ...     weight = -1  # NameColumn is 0
 
 Register and render the table again:
 
@@ -577,6 +577,7 @@ We'll use a fresh almost empty container.:
   >>> class TitleColumn(column.Column):
   ...
   ...     header = u'Title'
+  ...     weight = -2
   ...
   ...     def renderCell(self, item):
   ...         return item.title
