@@ -5,7 +5,9 @@ CHANGES
 1.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Added support for Python 3.3, dropped support for Python 2.5 and below.
+
+- Got rid of testing dependencies on z3.testing and zope.app.testing.
 
 
 1.0.0 (2012-08-09)
