@@ -79,8 +79,8 @@ class InterfaceBaseTest(unittest.TestCase):
 
     def test_verifyObject(self):
         # object test
-        self.assert_(verifyObject(self.getTestInterface(),
-            self.makeTestObject()))
+        self.assertTrue(
+            verifyObject(self.getTestInterface(), self.makeTestObject()))
 
 
 # table
