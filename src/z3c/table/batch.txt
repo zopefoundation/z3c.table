@@ -547,10 +547,10 @@ value:
 
   >>> from z3c.table.batch import BatchProvider
   >>> from z3c.table.interfaces import IBatchProvider
-  >>> from zope.interface import implements
-  >>> class XBatchProvider(BatchProvider):
+  >>> from zope.interface import implementer
+  >>> @implementer(IBatchProvider)
+  ... class XBatchProvider(BatchProvider):
   ...     """Just another batch provider."""
-  ...     implements(IBatchProvider)
   ...     batchSpacer = u'xxx'
 
 Now register the new batch provider for our batching table:
