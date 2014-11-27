@@ -1052,6 +1052,7 @@ columns which can point to a page with the item as context:
   ...     linkName = 'myLink.html'
   ...     linkTarget = '_blank'
   ...     linkCSS = 'myClass'
+  ...     linkTitle = 'Click'
 
   >>> class MyLinkTable(table.Table):
   ...     cssClassSortedOn = None
@@ -1082,23 +1083,23 @@ Now create, update and render our table:
     </thead>
     <tbody>
       <tr>
-        <td><a href="http://127.0.0.1/container/first/myLink.html" target="_blank" class="myClass">first</a></td>
+        <td><a href="http://127.0.0.1/container/first/myLink.html" target="_blank" class="myClass" title="Click">first</a></td>
         <td>number: 1</td>
       </tr>
       <tr>
-        <td><a href="http://127.0.0.1/container/fourth/myLink.html" target="_blank" class="myClass">fourth</a></td>
+        <td><a href="http://127.0.0.1/container/fourth/myLink.html" target="_blank" class="myClass" title="Click">fourth</a></td>
         <td>number: 4</td>
       </tr>
       <tr>
-        <td><a href="http://127.0.0.1/container/second/myLink.html" target="_blank" class="myClass">second</a></td>
+        <td><a href="http://127.0.0.1/container/second/myLink.html" target="_blank" class="myClass" title="Click">second</a></td>
         <td>number: 2</td>
       </tr>
       <tr>
-        <td><a href="http://127.0.0.1/container/third/myLink.html" target="_blank" class="myClass">third</a></td>
+        <td><a href="http://127.0.0.1/container/third/myLink.html" target="_blank" class="myClass" title="Click">third</a></td>
         <td>number: 3</td>
       </tr>
       <tr>
-        <td><a href="http://127.0.0.1/container/zero/myLink.html" target="_blank" class="myClass">zero</a></td>
+        <td><a href="http://127.0.0.1/container/zero/myLink.html" target="_blank" class="myClass" title="Click">zero</a></td>
         <td>number: 0</td>
       </tr>
     </tbody>
