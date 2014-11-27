@@ -568,7 +568,7 @@ As you can see the spacer get changed now:
 
   >>> requestBatchingTable.update()
   >>> requestBatchingTable.batchProvider
-  <XBatchProvider object at ...>
+  <...XBatchProvider object at ...>
   >>> print(requestBatchingTable.renderBatch())
   <a href="...html?table-batchSize=5&table-batchStart=0&table-sortOn=table-number-1" class="first">1</a>
   xxx
