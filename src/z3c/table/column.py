@@ -26,6 +26,7 @@ from zope.dublincore.interfaces import IZopeDublinCore
 from zope.security.interfaces import Unauthorized
 from zope.traversing import api
 from zope.traversing.browser import absoluteURL
+import cgi
 import zope.i18n
 import zope.i18nmessageid
 import zope.interface
@@ -350,6 +351,7 @@ class LinkColumn(Column):
     linkTarget = None
     linkContent = None
     linkCSS = None
+    linkTitle = None
 
     def getLinkURL(self, item):
         """Setup link url."""
@@ -360,6 +362,10 @@ class LinkColumn(Column):
     def getLinkCSS(self, item):
         """Setup link css."""
         return self.linkCSS and ' class="%s"' % self.linkCSS or ''
+
+    def getLinkTitle(self, item):
+        """Setup link title."""
+        return self.linkTitle and ' title="%s"' % cgi.escape(self.linkTitle, quote=True) or ''
 
     def getLinkTarget(self, item):
         """Setup link css."""
@@ -373,8 +379,8 @@ class LinkColumn(Column):
 
     def renderCell(self, item):
         # setup a tag
-        return '<a href="%s"%s%s>%s</a>' % (self.getLinkURL(item),
-            self.getLinkTarget(item), self.getLinkCSS(item),
+        return '<a href="%s"%s%s%s>%s</a>' % (self.getLinkURL(item),
+            self.getLinkTarget(item), self.getLinkCSS(item), self.getLinkTitle(item),
             self.getLinkContent(item))
 
 
