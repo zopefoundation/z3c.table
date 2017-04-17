@@ -2,8 +2,10 @@
 CHANGES
 =======
 
-2.0.0a2 (unreleased)
---------------------
+2.0.0 (unreleased)
+------------------
+
+- Updated to support Python 2.7, 3.5, and 3.6 only.
 
 - Added html title attribute on LinkColumn
 
