@@ -78,6 +78,7 @@ setup(
     install_requires=[
         'setuptools',
         'future',
+        'html',
         'z3c.batching>=1.1.0',
         'zope.component',
         'zope.contentprovider',

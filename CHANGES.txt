@@ -5,7 +5,7 @@ CHANGES
 2.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Added missing requires `html`.
 
 
 2.0.0 (2017-04-17)
