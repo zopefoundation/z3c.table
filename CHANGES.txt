@@ -5,7 +5,7 @@ CHANGES
 2.0.1 (unreleased)
 ------------------
 
-- Added missing requires `html`.
+- Required future>=0.14.0 so `html` package is available in Python 2.7.
 
 
 2.0.0 (2017-04-17)
