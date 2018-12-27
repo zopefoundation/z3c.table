@@ -28,21 +28,21 @@ setup(
     author_email="zope-dev@zope.org",
     description="Modular table rendering implementation for Zope3",
     long_description=(
-        read('README.txt')
+        read('README.rst')
         + '\n\n' +
-        read('src', 'z3c', 'table', 'README.txt')
+        read('src', 'z3c', 'table', 'README.rst')
         + '\n\n' +
-        read('src', 'z3c', 'table', 'sort.txt')
+        read('src', 'z3c', 'table', 'sort.rst')
         + '\n\n' +
-        read('src', 'z3c', 'table', 'batch.txt')
+        read('src', 'z3c', 'table', 'batch.rst')
         + '\n\n' +
-        read('src', 'z3c', 'table', 'sequence.txt')
+        read('src', 'z3c', 'table', 'sequence.rst')
         + '\n\n' +
-        read('src', 'z3c', 'table', 'column.txt')
+        read('src', 'z3c', 'table', 'column.rst')
         + '\n\n' +
-        read('src', 'z3c', 'table', 'miscellaneous.txt')
+        read('src', 'z3c', 'table', 'miscellaneous.rst')
         + '\n\n' +
-        read('CHANGES.txt')),
+        read('CHANGES.rst')),
     license="ZPL 2.1",
     keywords="zope3 z3c table content provider",
     classifiers=[
