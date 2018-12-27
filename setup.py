@@ -69,10 +69,11 @@ setup(
     namespace_packages=['z3c'],
     extras_require=dict(
         test=[
-            'zope.publisher',
-            'zope.testing',
             'zope.container',
+            'zope.publisher',
             'zope.site',
+            'zope.testing',
+            'zope.testrunner',
             ],
         ),
     install_requires=[
@@ -90,6 +91,5 @@ setup(
         'zope.security',
         'zope.traversing',
         ],
-    test_suite='z3c.table.tests.test_suite',
     zip_safe=False,
 )

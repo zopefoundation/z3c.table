@@ -1,12 +1,14 @@
 language: python
-env:
-    - TOXENV=py27
-    - TOXENV=py35
-    - TOXENV=py36
-    - TOXENV=pypy
+python:
+    - 2.7
+    - 3.5
+    - 3.6
+    - pypy
 install:
-    - travis_retry pip install tox
+    - pip install -U pip setuptools
+    - pip install -U -e .[test]
 script:
-    - tox
+    - zope-testrunner --test-path=src
 notifications:
     email: false
+cache: pip
