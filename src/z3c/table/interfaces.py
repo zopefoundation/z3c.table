@@ -20,95 +20,104 @@ import zope.schema
 class IValues(zope.interface.Interface):
     """Table value adapter."""
 
-    values = zope.interface.Attribute('Iterable table row data sequence.')
+    values = zope.interface.Attribute("Iterable table row data sequence.")
 
 
 class ITable(zope.contentprovider.interfaces.IContentProvider):
     """Table provider"""
 
     columnCounter = zope.schema.Int(
-        title=_(u'Column counter'),
-        description=_(u'Column counter'),
-        default=0)
+        title=_(u"Column counter"), description=_(u"Column counter"), default=0
+    )
 
     columnIndexById = zope.interface.Attribute(
-        'Dict of column index number by id')
+        "Dict of column index number by id"
+    )
 
-    columnByName = zope.interface.Attribute('Dict of columns by name')
+    columnByName = zope.interface.Attribute("Dict of columns by name")
 
-    columns = zope.interface.Attribute('Sequence of columns')
+    columns = zope.interface.Attribute("Sequence of columns")
 
-    rows = zope.interface.Attribute('Sequence of rows')
+    rows = zope.interface.Attribute("Sequence of rows")
 
-    selectedItems = zope.interface.Attribute('Sequence of selected items')
+    selectedItems = zope.interface.Attribute("Sequence of selected items")
 
     # customize this part if needed
     prefix = zope.schema.BytesLine(
-        title=_('Prefix'),
-        description=_('The prefix of the table used to uniquely identify it.'),
-        default=b'table')
+        title=_("Prefix"),
+        description=_("The prefix of the table used to uniquely identify it."),
+        default=b"table",
+    )
 
     # css classes
     cssClasses = zope.interface.Attribute(
-        'Dict of element name and CSS classes')
+        "Dict of element name and CSS classes"
+    )
 
     # additional (row) css
     cssClassEven = zope.schema.TextLine(
-        title=u'Even css row class',
-        description=(u'CSS class for even rows.'),
-        default=u'even',
-        required=False)
+        title=u"Even css row class",
+        description=(u"CSS class for even rows."),
+        default=u"even",
+        required=False,
+    )
 
     cssClassOdd = zope.schema.TextLine(
-        title=u'Odd css row class',
-        description=(u'CSS class for odd rows.'),
-        default=u'odd',
-        required=False)
+        title=u"Odd css row class",
+        description=(u"CSS class for odd rows."),
+        default=u"odd",
+        required=False,
+    )
 
     cssClassSelected = zope.schema.TextLine(
-        title=u'Selected css row class',
-        description=(u'CSS class for selected rows.'),
-        default=u'selected',
-        required=False)
+        title=u"Selected css row class",
+        description=(u"CSS class for selected rows."),
+        default=u"selected",
+        required=False,
+    )
 
     # sort attributes
     sortOn = zope.schema.Int(
-        title=_(u'Sort on table index'),
-        description=_(u'Sort on table index'),
-        default=0)
+        title=_(u"Sort on table index"),
+        description=_(u"Sort on table index"),
+        default=0,
+    )
 
     sortOrder = zope.schema.TextLine(
-        title=_(u'Sort order'),
-        description=_(u'Row sort order'),
-        default=u'ascending')
+        title=_(u"Sort order"),
+        description=_(u"Row sort order"),
+        default=u"ascending",
+    )
 
     reverseSortOrderNames = zope.schema.List(
-        title=u'Selected css row class',
-        description=(u'CSS class for selected rows.'),
+        title=u"Selected css row class",
+        description=(u"CSS class for selected rows."),
         value_type=zope.schema.TextLine(
-            title=_(u'Reverse sort order name'),
-            description=_(u'Reverse sort order name')
+            title=_(u"Reverse sort order name"),
+            description=_(u"Reverse sort order name"),
         ),
-        default=[u'descending', u'reverse', u'down'],
-        required=False)
+        default=[u"descending", u"reverse", u"down"],
+        required=False,
+    )
 
     # batch attributes
     batchStart = zope.schema.Int(
-        title=_(u'Batch start index'),
-        description=_(u'Index the batch starts with'),
-        default=0)
+        title=_(u"Batch start index"),
+        description=_(u"Index the batch starts with"),
+        default=0,
+    )
 
     batchSize = zope.schema.Int(
-        title=_(u'Batch size'),
-        description=_(u'The batch size'),
-        default=50)
+        title=_(u"Batch size"), description=_(u"The batch size"), default=50
+    )
 
     startBatchingAt = zope.schema.Int(
-        title=_(u'Batch start size'),
-        description=_(u'The minimal size the batch starts to get used'),
-        default=50)
+        title=_(u"Batch start size"),
+        description=_(u"The minimal size the batch starts to get used"),
+        default=50,
+    )
 
-    values = zope.interface.Attribute('Iterable table row data sequence.')
+    values = zope.interface.Attribute("Iterable table row data sequence.")
 
     def getCSSClass(element, cssClass=None):
         """Returns the css class if any or an empty string."""
@@ -193,27 +202,25 @@ class IColumn(zope.interface.Interface):
     """Column provider"""
 
     id = zope.schema.TextLine(
-        title = _(u'Id'),
-        description = _(u'The column id'),
-        default = None)
+        title=_(u"Id"), description=_(u"The column id"), default=None
+    )
 
     # customize this part if needed
     colspan = zope.schema.Int(
-        title = _(u'Colspan'),
-        description = _(u'The colspan value'),
-        default = 0)
+        title=_(u"Colspan"), description=_(u"The colspan value"), default=0
+    )
 
     weight = zope.schema.Int(
-        title = _(u'Weight'),
-        description = _(u'The column weight'),
-        default = 0)
+        title=_(u"Weight"), description=_(u"The column weight"), default=0
+    )
 
     header = zope.schema.TextLine(
-        title = _(u'Header name'),
-        description = _(u'The header name'),
-        default = u'')
+        title=_(u"Header name"), description=_(u"The header name"), default=u""
+    )
 
-    cssClasses = zope.interface.Attribute('Dict of element name and CSS classes')
+    cssClasses = zope.interface.Attribute(
+        "Dict of element name and CSS classes"
+    )
 
     def getColspan(item):
         """Colspan value based on the given item."""

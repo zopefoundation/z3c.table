@@ -21,6 +21,7 @@ from zope.publisher.interfaces.browser import IBrowserRequest
 
 from z3c.table import interfaces
 
+
 @zope.interface.implementer(interfaces.IValues)
 class ValuesMixin(object):
     """Mixin for different value adapters."""
@@ -31,8 +32,9 @@ class ValuesMixin(object):
         self.table = table
 
 
-@zope.component.adapter(zope.interface.Interface, IBrowserRequest,
-                        interfaces.ITable)
+@zope.component.adapter(
+    zope.interface.Interface, IBrowserRequest, interfaces.ITable
+)
 class ValuesForContainer(ValuesMixin):
     """Values from a simple IContainer."""
 
@@ -41,8 +43,9 @@ class ValuesForContainer(ValuesMixin):
         return self.context.values()
 
 
-@zope.component.adapter(zope.interface.Interface, IBrowserRequest,
-                        interfaces.ISequenceTable)
+@zope.component.adapter(
+    zope.interface.Interface, IBrowserRequest, interfaces.ISequenceTable
+)
 class ValuesForSequence(ValuesMixin):
     """Values from a simple IContainer."""
 

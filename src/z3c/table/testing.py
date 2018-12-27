@@ -32,32 +32,34 @@ import z3c.table.value
 class TitleColumn(column.Column):
 
     weight = 10
-    header = u'Title'
+    header = u"Title"
 
     def renderCell(self, item):
-        return u'Title: %s' % item.title
+        return u"Title: %s" % item.title
 
 
 class NumberColumn(column.Column):
 
-    header = u'Number'
+    header = u"Number"
     weight = 20
 
     def getSortKey(self, item):
         return item.number
 
     def renderCell(self, item):
-        return 'number: %s' % item.number
+        return "number: %s" % item.number
 
 
 class Container(btree.BTreeContainer):
     """Sample container."""
-    __name__ = u'container'
+
+    __name__ = u"container"
 
 
 class OrderedContainer(ordered.OrderedContainer):
     """Sample container."""
-    __name__ = u'container'
+
+    __name__ = u"container"
 
 
 class Content(object):
@@ -69,23 +71,28 @@ class Content(object):
 
 
 class SimpleTable(table.Table):
-
     def setUpColumns(self):
         return [
-            column.addColumn(self, TitleColumn, u'title',
-                             cellRenderer=cellRenderer,
-                             headCellRenderer=headCellRenderer,
-                             weight=1),
-            column.addColumn(self, NumberColumn, name=u'number',
-                             weight=2, header=u'Number')]
+            column.addColumn(
+                self,
+                TitleColumn,
+                u"title",
+                cellRenderer=cellRenderer,
+                headCellRenderer=headCellRenderer,
+                weight=1,
+            ),
+            column.addColumn(
+                self, NumberColumn, name=u"number", weight=2, header=u"Number"
+            ),
+        ]
 
 
 def headCellRenderer():
-    return u'My items'
+    return u"My items"
 
 
 def cellRenderer(item):
-    return u'%s item' % item.title
+    return u"%s item" % item.title
 
 
 @zope.interface.implementer(IZopeDublinCore)
@@ -94,15 +101,18 @@ class DublinCoreAdapterStub(object):
     """Dublin core adapter stub."""
 
     __Security_checker__ = checker.Checker(
-        {"created": "zope.Public",
-         "modified": "zope.Public",
-         "title": "zope.Public",
-         },
-        {"title": "zope.app.dublincore.change"})
+        {
+            "created": "zope.Public",
+            "modified": "zope.Public",
+            "title": "zope.Public",
+        },
+        {"title": "zope.app.dublincore.change"},
+    )
 
     def __init__(self, context):
         pass
-    title = 'faux title'
+
+    title = "faux title"
     size = 1024
     created = datetime.datetime(2001, 1, 1, 1, 1, 1)
     modified = datetime.datetime(2002, 2, 2, 2, 2, 2)
@@ -114,7 +124,7 @@ def setUpAdapters():
 
 
 def setUp(test):
-    test.globs['root'] = siteSetUp(True)
+    test.globs["root"] = siteSetUp(True)
     zope.traversing.testing.setUp()
     zope.component.provideAdapter(DublinCoreAdapterStub)
     setUpAdapters()

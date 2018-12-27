@@ -32,13 +32,23 @@ import zope.i18nmessageid
 import zope.interface
 import zope.location
 
-_ = zope.i18nmessageid.MessageFactory('z3c')
+_ = zope.i18nmessageid.MessageFactory("z3c")
 
 
-def addColumn(self, class_, name, cellRenderer=None, headCellRenderer=None,
-    colspan=None, weight=None, header=None, cssClasses=None, **kws):
+def addColumn(
+    self,
+    class_,
+    name,
+    cellRenderer=None,
+    headCellRenderer=None,
+    colspan=None,
+    weight=None,
+    header=None,
+    cssClasses=None,
+    **kws
+):
     if not interfaces.IColumn.implementedBy(class_):
-        raise ValueError('class_ %s must implement IColumn.' % class_)
+        raise ValueError("class_ %s must implement IColumn." % class_)
     column = class_(self.context, self.request, self)
     column.__parent__ = self
     column.__name__ = name
@@ -65,7 +75,7 @@ def getName(item):
     # probably not IPhysicallyLocatable but still could have a __name__
     try:
         return api.getName(item)
-    except TypeError as e:
+    except TypeError:
         return item.__name__
 
 
@@ -80,14 +90,13 @@ def safeGetAttr(obj, attr, default):
 class Column(zope.location.Location):
     """Column provider."""
 
-
     # variables will be set by table
     id = None
 
     # customize this part if needed
     colspan = 0
     weight = 0
-    header = u''
+    header = u""
     cssClasses = {}
 
     def __init__(self, context, request, table):
@@ -109,8 +118,10 @@ class Column(zope.location.Location):
 
     def renderHeadCell(self):
         """Header cell content."""
-        header = zope.component.queryMultiAdapter((self.context,
-            self.request, self.table, self), interfaces.IColumnHeader)
+        header = zope.component.queryMultiAdapter(
+            (self.context, self.request, self.table, self),
+            interfaces.IColumnHeader,
+        )
         if header:
             header.update()
             return header.render()
@@ -118,10 +129,10 @@ class Column(zope.location.Location):
 
     def renderCell(self, item):
         """Cell content."""
-        raise NotImplementedError('Subclass must implement renderCell')
+        raise NotImplementedError("Subclass must implement renderCell")
 
     def __repr__(self):
-        return '<%s %r>' % (self.__class__.__name__, self.__name__)
+        return "<%s %r>" % (self.__class__.__name__, self.__name__)
 
 
 @zope.interface.implementer(interfaces.INoneCell)
@@ -132,17 +143,17 @@ class NoneCell(Column):
         return 0
 
     def renderHeadCell(self):
-        return u''
+        return u""
 
     def renderCell(self, item):
-        return u''
+        return u""
 
 
 # predefined columns
 class NameColumn(Column):
     """Name column."""
 
-    header = _('Name')
+    header = _("Name")
 
     def renderCell(self, item):
         return getName(item)
@@ -151,13 +162,15 @@ class NameColumn(Column):
 try:
     apply
 except NameError:
+
     def apply(f, *a):
         return f(*a)
+
 
 class RadioColumn(Column):
     """Radio column."""
 
-    header = _('X')
+    header = _("X")
 
     @apply
     def selectedItem():
@@ -165,39 +178,47 @@ class RadioColumn(Column):
         def get(self):
             if len(self.table.selectedItems):
                 return list(self.table.selectedItems).pop()
+
         def set(self, value):
             self.table.selectedItems = [value]
+
         return property(get, set)
 
     def getSortKey(self, item):
         return getName(item)
 
     def getItemKey(self, item):
-        return '%s-selectedItem' % self.id
+        return "%s-selectedItem" % self.id
 
     def getItemValue(self, item):
         return getName(item)
 
     def update(self):
-        items = [item for item in self.table.values
-                 if self.getItemValue(item) in self.request.get(
-                     self.getItemKey(item), [])]
+        items = [
+            item
+            for item in self.table.values
+            if self.getItemValue(item)
+            in self.request.get(self.getItemKey(item), [])
+        ]
         if len(items):
             self.selectedItem = items.pop()
 
     def renderCell(self, item):
-        selected = u''
+        selected = u""
         if item == self.selectedItem:
-            selected='checked="checked"'
-        return u'<input type="radio" class="%s" name="%s" value="%s" %s />' %(
-            'radio-widget', self.getItemKey(item), self.getItemValue(item),
-            selected)
+            selected = 'checked="checked"'
+        return u'<input type="radio" class="%s" name="%s" value="%s" %s />' % (
+            "radio-widget",
+            self.getItemKey(item),
+            self.getItemValue(item),
+            selected,
+        )
 
 
 class CheckBoxColumn(Column):
     """Checkbox column."""
 
-    header = _('X')
+    header = _("X")
     weight = 10
 
     @apply
@@ -205,15 +226,17 @@ class CheckBoxColumn(Column):
         # use the items form the table
         def get(self):
             return self.table.selectedItems
+
         def set(self, values):
             self.table.selectedItems = values
+
         return property(get, set)
 
     def getSortKey(self, item):
         return getName(item)
 
     def getItemKey(self, item):
-        return '%s-selectedItems' % self.id
+        return "%s-selectedItems" % self.id
 
     def getItemValue(self, item):
         return getName(item)
@@ -228,23 +251,30 @@ class CheckBoxColumn(Column):
         return False
 
     def update(self):
-        self.selectedItems = [item for item in self.table.values
-                              if self.isSelected(item)]
+        self.selectedItems = [
+            item for item in self.table.values if self.isSelected(item)
+        ]
 
     def renderCell(self, item):
-        selected = u''
+        selected = u""
         if item in self.selectedItems:
             selected = 'checked="checked"'
-        return u'<input type="checkbox" class="%s" name="%s" value="%s" %s />' \
-            % ('checkbox-widget', self.getItemKey(item), self.getItemValue(item),
-            selected)
+        return (
+            u'<input type="checkbox" class="%s" name="%s" value="%s" %s />'
+            % (
+                "checkbox-widget",
+                self.getItemKey(item),
+                self.getItemValue(item),
+                selected,
+            )
+        )
 
 
 class GetAttrColumn(Column):
     """Get attribute column."""
 
     attrName = None
-    defaultValue = u''
+    defaultValue = u""
 
     def getValue(self, obj):
         if obj is not None and self.attrName is not None:
@@ -259,7 +289,7 @@ class GetItemColumn(Column):
     """Get value from item index/key column."""
 
     idx = None
-    defaultValue = u''
+    defaultValue = u""
 
     def getValue(self, obj):
         if obj is not None and self.idx is not None:
@@ -283,15 +313,18 @@ class I18nGetAttrColumn(GetAttrColumn):
 class FormatterColumn(Column):
     """Formatter column."""
 
-    formatterCategory = u'dateTime'
-    formatterLength = u'medium'
+    formatterCategory = u"dateTime"
+    formatterLength = u"medium"
     formatterName = None
-    formatterCalendar = u'gregorian'
+    formatterCalendar = u"gregorian"
 
     def getFormatter(self):
         return self.request.locale.dates.getFormatter(
-            self.formatterCategory, self.formatterLength, self.formatterName,
-            self.formatterCalendar)
+            self.formatterCategory,
+            self.formatterLength,
+            self.formatterName,
+            self.formatterCalendar,
+        )
 
 
 class GetAttrFormatterColumn(FormatterColumn, GetAttrColumn):
@@ -308,12 +341,12 @@ class GetAttrFormatterColumn(FormatterColumn, GetAttrColumn):
 class CreatedColumn(FormatterColumn, GetAttrColumn):
     """Created date column."""
 
-    header = _('Created')
+    header = _("Created")
     weight = 100
 
-    formatterCategory = u'dateTime'
-    formatterLength = u'short'
-    attrName = 'created'
+    formatterCategory = u"dateTime"
+    formatterLength = u"short"
+    attrName = "created"
 
     def renderCell(self, item):
         formatter = self.getFormatter()
@@ -327,12 +360,12 @@ class CreatedColumn(FormatterColumn, GetAttrColumn):
 class ModifiedColumn(FormatterColumn, GetAttrColumn):
     """Created date column."""
 
-    header = _('Modified')
+    header = _("Modified")
     weight = 110
 
-    formatterCategory = u'dateTime'
-    formatterLength = u'short'
-    attrName = 'modified'
+    formatterCategory = u"dateTime"
+    formatterLength = u"short"
+    attrName = "modified"
 
     def renderCell(self, item):
         formatter = self.getFormatter()
@@ -346,7 +379,7 @@ class ModifiedColumn(FormatterColumn, GetAttrColumn):
 class LinkColumn(Column):
     """Name column."""
 
-    header = _('Name')
+    header = _("Name")
     linkName = None
     linkTarget = None
     linkContent = None
@@ -356,21 +389,24 @@ class LinkColumn(Column):
     def getLinkURL(self, item):
         """Setup link url."""
         if self.linkName is not None:
-            return '%s/%s' % (absoluteURL(item, self.request), self.linkName)
+            return "%s/%s" % (absoluteURL(item, self.request), self.linkName)
         return absoluteURL(item, self.request)
 
     def getLinkCSS(self, item):
         """Setup link css."""
-        return self.linkCSS and ' class="%s"' % self.linkCSS or ''
+        return self.linkCSS and ' class="%s"' % self.linkCSS or ""
 
     def getLinkTitle(self, item):
         """Setup link title."""
-        return ' title="%s"' % html.escape(self.linkTitle, quote=True) \
-            if self.linkTitle else ''
+        return (
+            ' title="%s"' % html.escape(self.linkTitle, quote=True)
+            if self.linkTitle
+            else ""
+        )
 
     def getLinkTarget(self, item):
         """Setup link css."""
-        return self.linkTarget and ' target="%s"' % self.linkTarget or ''
+        return self.linkTarget and ' target="%s"' % self.linkTarget or ""
 
     def getLinkContent(self, item):
         """Setup link content."""
@@ -381,21 +417,24 @@ class LinkColumn(Column):
     def renderCell(self, item):
         # setup a tag
         return '<a href="%s"%s%s%s>%s</a>' % (
-            self.getLinkURL(item), self.getLinkTarget(item),
-            self.getLinkCSS(item), self.getLinkTitle(item),
-            self.getLinkContent(item))
+            self.getLinkURL(item),
+            self.getLinkTarget(item),
+            self.getLinkCSS(item),
+            self.getLinkTitle(item),
+            self.getLinkContent(item),
+        )
 
 
 class EMailColumn(LinkColumn, GetAttrColumn):
     "Column to display mailto links."
 
-    header = _(u'E-Mail')
-    attrName = None # attribute name which contains the mail address
-    defaultValue = u'' # value which is rendered when no value is found
+    header = _(u"E-Mail")
+    attrName = None  # attribute name which contains the mail address
+    defaultValue = u""  # value which is rendered when no value is found
     linkContent = None
 
     def getLinkURL(self, item):
-        return 'mailto:%s' % self.getValue(item)
+        return "mailto:%s" % self.getValue(item)
 
     def getLinkContent(self, item):
         if self.linkContent:
@@ -408,10 +447,12 @@ class EMailColumn(LinkColumn, GetAttrColumn):
             return self.defaultValue
         return super(EMailColumn, self).renderCell(item)
 
+
 def ensureList(item):
     if not isinstance(item, (list, tuple)):
         return [item]
     return item
+
 
 class SelectedItemColumn(LinkColumn):
     """Link which can set an item."""
@@ -420,11 +461,13 @@ class SelectedItemColumn(LinkColumn):
 
     @property
     def viewURL(self):
-        return '%s/%s' % (absoluteURL(self.context, self.request),
-            self.table.__name__)
+        return "%s/%s" % (
+            absoluteURL(self.context, self.request),
+            self.table.__name__,
+        )
 
     def getItemKey(self, item):
-        return '%s-selectedItems' % self.id
+        return "%s-selectedItems" % self.id
 
     def getItemValue(self, item):
         return getName(item)
@@ -439,13 +482,18 @@ class SelectedItemColumn(LinkColumn):
 
     def getLinkURL(self, item):
         """Setup link url."""
-        return '%s?%s' % (self.viewURL,
-            urlencode({self.getItemKey(item): self.getItemValue(item)}))
+        return "%s?%s" % (
+            self.viewURL,
+            urlencode({self.getItemKey(item): self.getItemValue(item)}),
+        )
 
     def update(self):
-        items = [item for item in self.table.values
-                 if self.getItemValue(item) in ensureList(self.request.get(
-                     self.getItemKey(item), []))]
+        items = [
+            item
+            for item in self.table.values
+            if self.getItemValue(item)
+            in ensureList(self.request.get(self.getItemKey(item), []))
+        ]
         if len(items):
             self.selectedItem = items.pop()
             self.table.selectedItems = [self.selectedItem]
@@ -454,16 +502,16 @@ class SelectedItemColumn(LinkColumn):
 class ContentsLinkColumn(LinkColumn):
     """Link pointing to contents.html."""
 
-    linkName = 'contents.html'
+    linkName = "contents.html"
 
 
 class IndexLinkColumn(LinkColumn):
     """Link pointing to index.html."""
 
-    linkName = 'index.html'
+    linkName = "index.html"
 
 
 class EditLinkColumn(LinkColumn):
     """Link pointing to edit.html."""
 
-    linkName = 'edit.html'
+    linkName = "edit.html"

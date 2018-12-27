@@ -11,17 +11,12 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-"""
-$Id:$
-"""
-__docformat__ = "reStructuredText"
-
 import re
 import unittest
 import doctest
 from zope.publisher.browser import TestRequest
 from zope.interface.verify import verifyObject
-#from z3c.testing.verify import verifyClass
+
 from zope.testing.renormalizing import RENormalizing
 
 from z3c.batching.batch import Batch
@@ -33,12 +28,13 @@ from z3c.table import batch
 
 
 class FakeContainer(object):
-
     def values(self):
         pass
 
+
 marker_pos = object()
 marker_kws = object()
+
 
 class InterfaceBaseTest(unittest.TestCase):
     """Base test for IContainer including interface test."""
@@ -73,19 +69,15 @@ class InterfaceBaseTest(unittest.TestCase):
             # an adapted instance is the object to be tested.
             return testclass(object, *pos, **kws)
 
-    #def test_verifyClass(self):
-    #    # class test
-    #    self.assert_(verifyClass(self.getTestInterface(), self.getTestClass()))
-
     def test_verifyObject(self):
         # object test
         self.assertTrue(
-            verifyObject(self.getTestInterface(), self.makeTestObject()))
+            verifyObject(self.getTestInterface(), self.makeTestObject())
+        )
 
 
 # table
 class TestTable(InterfaceBaseTest):
-
     def setUp(test):
         testing.setUpAdapters()
 
@@ -100,7 +92,6 @@ class TestTable(InterfaceBaseTest):
 
 
 class TestSequenceTable(InterfaceBaseTest):
-
     def setUp(test):
         testing.setUpAdapters()
 
@@ -116,7 +107,6 @@ class TestSequenceTable(InterfaceBaseTest):
 
 # column
 class TestColumn(InterfaceBaseTest):
-
     def getTestInterface(self):
         return interfaces.IColumn
 
@@ -129,7 +119,6 @@ class TestColumn(InterfaceBaseTest):
 
 
 class TestNoneCell(InterfaceBaseTest):
-
     def getTestInterface(self):
         return interfaces.INoneCell
 
@@ -142,7 +131,6 @@ class TestNoneCell(InterfaceBaseTest):
 
 
 class TestNameColumn(InterfaceBaseTest):
-
     def getTestInterface(self):
         return interfaces.IColumn
 
@@ -155,7 +143,6 @@ class TestNameColumn(InterfaceBaseTest):
 
 
 class TestRadioColumn(InterfaceBaseTest):
-
     def getTestInterface(self):
         return interfaces.IColumn
 
@@ -168,7 +155,6 @@ class TestRadioColumn(InterfaceBaseTest):
 
 
 class TestCheckBoxColumn(InterfaceBaseTest):
-
     def getTestInterface(self):
         return interfaces.IColumn
 
@@ -182,7 +168,6 @@ class TestCheckBoxColumn(InterfaceBaseTest):
 
 # batch
 class TestBatchProvider(InterfaceBaseTest):
-
     def getTestInterface(self):
         return interfaces.IBatchProvider
 
@@ -196,44 +181,70 @@ class TestBatchProvider(InterfaceBaseTest):
 
 
 def test_suite():
-    checker = RENormalizing((
+    checker = RENormalizing(
+        (
             (re.compile("u'(.*)'"), "'\\1'"),
             (re.compile('u"(.*)"'), '"\\1"'),
-            (re.compile('zope.security.interfaces.Unauthorized'),
-             'Unauthorized'),
-            ))
+            (
+                re.compile("zope.security.interfaces.Unauthorized"),
+                "Unauthorized",
+            ),
+        )
+    )
 
-    return unittest.TestSuite((
-        doctest.DocFileSuite('README.rst',
-            setUp=testing.setUp, tearDown=testing.tearDown, checker=checker,
-            optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
+    return unittest.TestSuite(
+        (
+            doctest.DocFileSuite(
+                "README.rst",
+                setUp=testing.setUp,
+                tearDown=testing.tearDown,
+                checker=checker,
+                optionflags=doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS,
             ),
-        doctest.DocFileSuite('sequence.rst',
-            setUp=testing.setUp, tearDown=testing.tearDown, checker=checker,
-            optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
+            doctest.DocFileSuite(
+                "sequence.rst",
+                setUp=testing.setUp,
+                tearDown=testing.tearDown,
+                checker=checker,
+                optionflags=doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS,
             ),
-        doctest.DocFileSuite('sort.rst',
-            setUp=testing.setUp, tearDown=testing.tearDown, checker=checker,
-            optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
+            doctest.DocFileSuite(
+                "sort.rst",
+                setUp=testing.setUp,
+                tearDown=testing.tearDown,
+                checker=checker,
+                optionflags=doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS,
             ),
-        doctest.DocFileSuite('batch.rst',
-            setUp=testing.setUp, tearDown=testing.tearDown, checker=checker,
-            optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS|doctest.REPORT_UDIFF,
+            doctest.DocFileSuite(
+                "batch.rst",
+                setUp=testing.setUp,
+                tearDown=testing.tearDown,
+                checker=checker,
+                optionflags=doctest.NORMALIZE_WHITESPACE
+                | doctest.ELLIPSIS
+                | doctest.REPORT_UDIFF,
             ),
-        doctest.DocFileSuite('miscellaneous.rst',
-            setUp=testing.setUp, tearDown=testing.tearDown, checker=checker,
-            optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
+            doctest.DocFileSuite(
+                "miscellaneous.rst",
+                setUp=testing.setUp,
+                tearDown=testing.tearDown,
+                checker=checker,
+                optionflags=doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS,
             ),
-        doctest.DocFileSuite('column.rst',
-            setUp=testing.setUp, tearDown=testing.tearDown, checker=checker,
-            optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
+            doctest.DocFileSuite(
+                "column.rst",
+                setUp=testing.setUp,
+                tearDown=testing.tearDown,
+                checker=checker,
+                optionflags=doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS,
             ),
-        unittest.makeSuite(TestTable),
-        unittest.makeSuite(TestSequenceTable),
-        unittest.makeSuite(TestColumn),
-        unittest.makeSuite(TestNoneCell),
-        unittest.makeSuite(TestNameColumn),
-        unittest.makeSuite(TestRadioColumn),
-        unittest.makeSuite(TestCheckBoxColumn),
-        unittest.makeSuite(TestBatchProvider),
-        ))
+            unittest.makeSuite(TestTable),
+            unittest.makeSuite(TestSequenceTable),
+            unittest.makeSuite(TestColumn),
+            unittest.makeSuite(TestNoneCell),
+            unittest.makeSuite(TestNameColumn),
+            unittest.makeSuite(TestRadioColumn),
+            unittest.makeSuite(TestCheckBoxColumn),
+            unittest.makeSuite(TestBatchProvider),
+        )
+    )

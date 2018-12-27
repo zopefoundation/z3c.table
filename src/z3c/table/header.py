@@ -18,6 +18,7 @@ __docformat__ = "reStructuredText"
 
 
 from z3c.table.i18n import _
+
 try:
     # Python 2
     from urllib import urlencode
@@ -32,6 +33,7 @@ import zope.interface
 @zope.interface.implementer(z3c.table.interfaces.IColumnHeader)
 class ColumnHeader(object):
     """ColumnHeader renderer provider"""
+
     _request_args = []
 
     def __init__(self, context, request, table, column):
@@ -79,26 +81,28 @@ class SortingColumnHeader(ColumnHeader):
         try:
             currentSortID = int(currentSortID)
         except ValueError:
-            currentSortID = currentSortID.rsplit('-', 1)[-1]
+            currentSortID = currentSortID.rsplit("-", 1)[-1]
 
         currentSortOrder = table.getSortOrder()
 
-        sortID = colID.rsplit('-', 1)[-1]
+        sortID = colID.rsplit("-", 1)[-1]
 
         sortOrder = table.sortOrder
         if int(sortID) == int(currentSortID):
             # ordering the same column so we want to reverse the order
             if currentSortOrder in table.reverseSortOrderNames:
-                sortOrder = 'ascending'
-            elif currentSortOrder == 'ascending':
+                sortOrder = "ascending"
+            elif currentSortOrder == "ascending":
                 sortOrder = table.reverseSortOrderNames[0]
 
         args = self.getQueryStringArgs()
-        args.update({'%s-sortOn' % prefix: colID,
-                     '%s-sortOrder' % prefix: sortOrder})
-        queryString = '?%s' % (urlencode(sorted(args.items())))
+        args.update(
+            {"%s-sortOn" % prefix: colID, "%s-sortOrder" % prefix: sortOrder}
+        )
+        queryString = "?%s" % (urlencode(sorted(args.items())))
 
         return '<a href="%s" title="%s">%s</a>' % (
             queryString,
-            zope.i18n.translate(_('Sort'), context=self.request),
-            zope.i18n.translate(self.column.header, context=self.request))
+            zope.i18n.translate(_("Sort"), context=self.request),
+            zope.i18n.translate(self.column.header, context=self.request),
+        )
