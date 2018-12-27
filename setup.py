@@ -23,7 +23,7 @@ def read(*rnames):
 
 setup(
     name="z3c.table",
-    version="2.0.2.dev0",
+    version="2.1.dev0",
     author="Stephan Richter, Roger Ineichen and the Zope Community",
     author_email="zope-dev@zope.org",
     description="Modular table rendering implementation for Zope3",
@@ -57,6 +57,7 @@ setup(
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: Implementation :: CPython",
         "Programming Language :: Python :: Implementation :: PyPy",
         "Natural Language :: English",
@@ -64,7 +65,7 @@ setup(
         "Topic :: Internet :: WWW/HTTP",
         "Framework :: Zope :: 3",
     ],
-    url="http://pypi.python.org/pypi/z3c.table",
+    url="https://github.com/zopefoundation/z3c.table",
     packages=find_packages("src"),
     include_package_data=True,
     package_dir={"": "src"},
