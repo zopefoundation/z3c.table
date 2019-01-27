@@ -27,7 +27,9 @@ class ITable(zope.contentprovider.interfaces.IContentProvider):
     """Table provider"""
 
     columnCounter = zope.schema.Int(
-        title=_(u"Column counter"), description=_(u"Column counter"), default=0
+        title=_(u"Column counter"),
+        description=_(u"Column counter"),
+        default=0
     )
 
     columnIndexById = zope.interface.Attribute(
@@ -108,7 +110,9 @@ class ITable(zope.contentprovider.interfaces.IContentProvider):
     )
 
     batchSize = zope.schema.Int(
-        title=_(u"Batch size"), description=_(u"The batch size"), default=50
+        title=_(u"Batch size"),
+        description=_(u"The batch size"),
+        default=50
     )
 
     startBatchingAt = zope.schema.Int(
@@ -202,20 +206,28 @@ class IColumn(zope.interface.Interface):
     """Column provider"""
 
     id = zope.schema.TextLine(
-        title=_(u"Id"), description=_(u"The column id"), default=None
+        title=_(u"Id"),
+        description=_(u"The column id"),
+        default=None
     )
 
     # customize this part if needed
     colspan = zope.schema.Int(
-        title=_(u"Colspan"), description=_(u"The colspan value"), default=0
+        title=_(u"Colspan"),
+        description=_(u"The colspan value"),
+        default=0
     )
 
     weight = zope.schema.Int(
-        title=_(u"Weight"), description=_(u"The column weight"), default=0
+        title=_(u"Weight"),
+        description=_(u"The column weight"),
+        default=0
     )
 
     header = zope.schema.TextLine(
-        title=_(u"Header name"), description=_(u"The header name"), default=u""
+        title=_(u"Header name"),
+        description=_(u"The header name"),
+        default=u""
     )
 
     cssClasses = zope.interface.Attribute(

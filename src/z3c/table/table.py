@@ -136,7 +136,7 @@ class Table(zope.location.Location):
             klass = "%s %s" % (cssClass, klass)
         elif cssClass:
             klass = cssClass
-        return klass and " class=%s" % quoteattr(klass) or ""
+        return " class=%s" % quoteattr(klass) if klass else ""
 
     # setup
 
@@ -313,7 +313,7 @@ class Table(zope.location.Location):
         cssClass = self.getCSSHighlightClass(column, item, cssClass)
         cssClass = self.getCSSSortClass(column, cssClass)
         cssClass = self.getCSSClass("td", cssClass)
-        colspanStr = colspan and ' colspan="%s"' % colspan or ""
+        colspanStr = ' colspan="%s"' % colspan if colspan else ""
         return u"\n      <td%s%s>%s</td>" % (
             cssClass,
             colspanStr,
