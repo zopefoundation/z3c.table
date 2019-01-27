@@ -11,11 +11,6 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-"""
-$Id:$
-"""
-__docformat__ = "reStructuredText"
-
 from xml.sax.saxutils import quoteattr
 
 import zope.interface
