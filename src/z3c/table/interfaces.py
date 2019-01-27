@@ -124,7 +124,7 @@ class ITable(zope.contentprovider.interfaces.IContentProvider):
     values = zope.interface.Attribute("Iterable table row data sequence.")
 
     def getCSSClass(element, cssClass=None):
-        """Returns the css class if any or an empty string."""
+        """Return the css class if any or an empty string."""
 
     def setUpColumns():
         """Setup table column renderer."""
@@ -145,25 +145,25 @@ class ITable(zope.contentprovider.interfaces.IContentProvider):
         """Setup table rows."""
 
     def getSortOn():
-        """Returns sort on column id."""
+        """Return sort on column id."""
 
     def getSortOrder():
-        """Returns sort order criteria."""
+        """Return sort order criteria."""
 
     def sortRows():
         """Sort rows."""
 
     def getBatchSize():
-        """Returns the batch size."""
+        """Return the batch size."""
 
     def getBatchStart():
-        """Returns the batch start index."""
+        """Return the batch start index."""
 
     def batchRows():
         """Batch rows."""
 
     def isSelectedRow(row):
-        """Returns True for selected row."""
+        """Return `True for selected row."""
 
     def renderTable():
         """Render the table."""
@@ -252,7 +252,7 @@ class IBatchProvider(zope.contentprovider.interfaces.IContentProvider):
     """Batch content provider"""
 
     def renderBatchLink(batch, cssClass=None):
-        """Renders batch links."""
+        """Render batch links."""
 
     def render():
         """Plain render method without keyword arguments."""
