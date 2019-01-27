@@ -11,11 +11,6 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-"""
-$Id:$
-"""
-__docformat__ = "reStructuredText"
-
 try:
     # Python 2
     from urllib import urlencode
@@ -30,7 +25,7 @@ from zope.traversing.browser import absoluteURL
 from z3c.table import interfaces
 from z3c.batching.batch import first_neighbours_last
 
-_ = zope.i18nmessageid.MessageFactory('z3c')
+_ = zope.i18nmessageid.MessageFactory("z3c")
 
 
 @zope.interface.implementer(interfaces.IBatchProvider)
@@ -44,20 +39,20 @@ class BatchProvider(object):
     This batch provider offers a batch presentation for a given table. The
     batch provides different configuration options which can be overriden in
     custom implementations:
-    
+
     The batch acts like this. If we have more batches than
     (prevBatchSize + nextBatchSize + 3) then the advanced batch subset is used.
-    Otherwise, we will render all batch links.    
+    Otherwise, we will render all batch links.
     Note, the additional factor 3 is the placeholder for the first, current and
     last item.
 
     Such a batch looks like:
 
-    Renders the link for the first batch, spacers, the amount of links for 
-    previous batches, the current batch link, spacers, the amount of links for 
+    Renders the link for the first batch, spacers, the amount of links for
+    previous batches, the current batch link, spacers, the amount of links for
     previous batches and the link for the last batch.
-    
-    Sample for 1000 items with 100 batches with batchSize of 10 and a     
+
+    Sample for 1000 items with 100 batches with batchSize of 10 and a
     prevBatchSize of 3 and a nextBatchSize of 3:
 
     For the first item:
@@ -74,9 +69,9 @@ class BatchProvider(object):
 
     prevBatchSize = 3
     nextBatchSize = 3
-    batchSpacer = u'...'
+    batchSpacer = u"..."
 
-    _request_args = ['%(prefix)s-sortOn', '%(prefix)s-sortOrder']
+    _request_args = ["%(prefix)s-sortOn", "%(prefix)s-sortOrder"]
 
     def __init__(self, context, request, table):
         self.__parent__ = context
@@ -101,13 +96,13 @@ class BatchProvider(object):
 
     def renderBatchLink(self, batch, cssClass=None):
         args = self.getQueryStringArgs()
-        args[self.table.prefix +'-batchStart'] = batch.start
-        args[self.table.prefix +'-batchSize'] = batch.size
+        args[self.table.prefix + "-batchStart"] = batch.start
+        args[self.table.prefix + "-batchSize"] = batch.size
         query = urlencode(sorted(args.items()))
         tableURL = absoluteURL(self.table, self.request)
         idx = batch.index + 1
         css = ' class="%s"' % cssClass
-        cssClass = cssClass and css or u''
+        cssClass = cssClass and css or u""
         return '<a href="%s?%s"%s>%s</a>' % (tableURL, query, cssClass, idx)
 
     def update(self):
@@ -118,11 +113,12 @@ class BatchProvider(object):
             self.batchItems = self.batch.batches
         else:
             # switch to an advanced batch subset
-            self.batchItems = first_neighbours_last(self.batches,
-                                                    self.batch.index,
-                                                    self.prevBatchSize,
-                                                    self.nextBatchSize,
-                                                    )
+            self.batchItems = first_neighbours_last(
+                self.batches,
+                self.batch.index,
+                self.prevBatchSize,
+                self.nextBatchSize,
+            )
 
     def render(self):
         self.update()
@@ -135,14 +131,14 @@ class BatchProvider(object):
             # build css class
             cssClasses = []
             if batch and batch == self.batch:
-                cssClasses.append('current')
+                cssClasses.append("current")
             if idx == 1:
-                cssClasses.append('first')
+                cssClasses.append("first")
             if idx == lastIdx:
-                cssClasses.append('last')
-            
+                cssClasses.append("last")
+
             if cssClasses:
-                css = ' '.join(cssClasses)
+                css = " ".join(cssClasses)
             else:
                 css = None
 
@@ -160,4 +156,4 @@ class BatchProvider(object):
                 append(self.renderBatchLink(batch, css))
             else:
                 append(self.renderBatchLink(batch))
-        return u'\n'.join(res)
+        return u"\n".join(res)

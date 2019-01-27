@@ -2,10 +2,14 @@
 CHANGES
 =======
 
-2.0.2 (unreleased)
-------------------
+2.1 (unreleased)
+----------------
 
-- Nothing changed yet.
+- Added support for Python 3.7 and PyPy3.
+
+- Dropped support for running the tests using `python setup.py test`.
+
+- Reformatted the code using black and flake8.
 
 
 2.0.1 (2017-04-19)

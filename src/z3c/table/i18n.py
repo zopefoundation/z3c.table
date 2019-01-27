@@ -14,4 +14,4 @@
 import zope.i18nmessageid
 
 
-_ = zope.i18nmessageid.MessageFactory('z3c')
+_ = zope.i18nmessageid.MessageFactory("z3c")
