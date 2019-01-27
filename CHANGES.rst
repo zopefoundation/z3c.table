@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-2.1 (unreleased)
+2.1 (2019-01-27)
 ----------------
 
 - Added support for Python 3.7 and PyPy3.
