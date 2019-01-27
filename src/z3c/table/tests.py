@@ -36,7 +36,7 @@ marker_pos = object()
 marker_kws = object()
 
 
-class InterfaceBaseTest(unittest.TestCase):
+class InterfaceBaseTest(object):
     """Base test for IContainer including interface test."""
 
     iface = None
@@ -77,7 +77,7 @@ class InterfaceBaseTest(unittest.TestCase):
 
 
 # table
-class TestTable(InterfaceBaseTest):
+class TestTable(InterfaceBaseTest, unittest.TestCase):
     def setUp(test):
         testing.setUpAdapters()
 
@@ -91,7 +91,7 @@ class TestTable(InterfaceBaseTest):
         return (FakeContainer(), TestRequest())
 
 
-class TestSequenceTable(InterfaceBaseTest):
+class TestSequenceTable(InterfaceBaseTest, unittest.TestCase):
     def setUp(test):
         testing.setUpAdapters()
 
@@ -106,7 +106,7 @@ class TestSequenceTable(InterfaceBaseTest):
 
 
 # column
-class TestColumn(InterfaceBaseTest):
+class TestColumn(InterfaceBaseTest, unittest.TestCase):
     def getTestInterface(self):
         return interfaces.IColumn
 
@@ -118,7 +118,7 @@ class TestColumn(InterfaceBaseTest):
         return ({}, TestRequest(), t)
 
 
-class TestNoneCell(InterfaceBaseTest):
+class TestNoneCell(InterfaceBaseTest, unittest.TestCase):
     def getTestInterface(self):
         return interfaces.INoneCell
 
@@ -130,7 +130,7 @@ class TestNoneCell(InterfaceBaseTest):
         return ({}, TestRequest(), t)
 
 
-class TestNameColumn(InterfaceBaseTest):
+class TestNameColumn(InterfaceBaseTest, unittest.TestCase):
     def getTestInterface(self):
         return interfaces.IColumn
 
@@ -142,7 +142,7 @@ class TestNameColumn(InterfaceBaseTest):
         return ({}, TestRequest(), t)
 
 
-class TestRadioColumn(InterfaceBaseTest):
+class TestRadioColumn(InterfaceBaseTest, unittest.TestCase):
     def getTestInterface(self):
         return interfaces.IColumn
 
@@ -154,7 +154,7 @@ class TestRadioColumn(InterfaceBaseTest):
         return ({}, TestRequest(), t)
 
 
-class TestCheckBoxColumn(InterfaceBaseTest):
+class TestCheckBoxColumn(InterfaceBaseTest, unittest.TestCase):
     def getTestInterface(self):
         return interfaces.IColumn
 
@@ -167,7 +167,7 @@ class TestCheckBoxColumn(InterfaceBaseTest):
 
 
 # batch
-class TestBatchProvider(InterfaceBaseTest):
+class TestBatchProvider(InterfaceBaseTest, unittest.TestCase):
     def getTestInterface(self):
         return interfaces.IBatchProvider
 
@@ -238,13 +238,6 @@ def test_suite():
                 checker=checker,
                 optionflags=doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS,
             ),
-            unittest.makeSuite(TestTable),
-            unittest.makeSuite(TestSequenceTable),
-            unittest.makeSuite(TestColumn),
-            unittest.makeSuite(TestNoneCell),
-            unittest.makeSuite(TestNameColumn),
-            unittest.makeSuite(TestRadioColumn),
-            unittest.makeSuite(TestCheckBoxColumn),
-            unittest.makeSuite(TestBatchProvider),
+            unittest.defaultTestLoader.loadTestsFromName(__name__),
         )
     )
