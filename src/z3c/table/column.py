@@ -124,8 +124,12 @@ class Column(zope.location.Location):
         )
         if header:
             header.update()
+            # HTML escaping is the responsibility of IColumnHeader.render
             return header.render()
-        return zope.i18n.translate(self.header, context=self.request)
+        # make sure we don't output HTML special chars
+        return html.escape(
+            zope.i18n.translate(self.header, context=self.request)
+        )
 
     def renderCell(self, item):
         """Cell content."""
@@ -156,7 +160,7 @@ class NameColumn(Column):
     header = _("Name")
 
     def renderCell(self, item):
-        return getName(item)
+        return html.escape(getName(item))
 
 
 try:
@@ -206,11 +210,11 @@ class RadioColumn(Column):
     def renderCell(self, item):
         selected = u""
         if item == self.selectedItem:
-            selected = 'checked="checked"'
-        return u'<input type="radio" class="%s" name="%s" value="%s" %s />' % (
+            selected = ' checked="checked"'
+        return u'<input type="radio" class="%s" name="%s" value="%s"%s />' % (
             "radio-widget",
-            self.getItemKey(item),
-            self.getItemValue(item),
+            html.escape(self.getItemKey(item)),
+            html.escape(self.getItemValue(item)),
             selected,
         )
 
@@ -243,9 +247,7 @@ class CheckBoxColumn(Column):
 
     def isSelected(self, item):
         v = self.request.get(self.getItemKey(item), [])
-        if not isinstance(v, list):
-            # ensure that we have a list which prevents to compare strings
-            v = [v]
+        v = ensureList(v)
         if self.getItemValue(item) in v:
             return True
         return False
@@ -258,13 +260,13 @@ class CheckBoxColumn(Column):
     def renderCell(self, item):
         selected = u""
         if item in self.selectedItems:
-            selected = 'checked="checked"'
+            selected = ' checked="checked"'
         return (
-            u'<input type="checkbox" class="%s" name="%s" value="%s" %s />'
+            u'<input type="checkbox" class="%s" name="%s" value="%s"%s />'
             % (
                 "checkbox-widget",
-                self.getItemKey(item),
-                self.getItemValue(item),
+                html.escape(self.getItemKey(item)),
+                html.escape(self.getItemValue(item)),
                 selected,
             )
         )
@@ -399,13 +401,13 @@ class LinkColumn(Column):
     def getLinkTitle(self, item):
         """Setup link title."""
         return (
-            ' title="%s"' % html.escape(self.linkTitle, quote=True)
+            ' title="%s"' % html.escape(self.linkTitle)
             if self.linkTitle
             else ""
         )
 
     def getLinkTarget(self, item):
-        """Setup link css."""
+        """Setup link target."""
         return self.linkTarget and ' target="%s"' % self.linkTarget or ""
 
     def getLinkContent(self, item):
@@ -417,11 +419,11 @@ class LinkColumn(Column):
     def renderCell(self, item):
         # setup a tag
         return '<a href="%s"%s%s%s>%s</a>' % (
-            self.getLinkURL(item),
+            html.escape(self.getLinkURL(item)),
             self.getLinkTarget(item),
             self.getLinkCSS(item),
             self.getLinkTitle(item),
-            self.getLinkContent(item),
+            html.escape(self.getLinkContent(item)),
         )
 
 
