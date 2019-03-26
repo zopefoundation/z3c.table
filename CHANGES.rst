@@ -5,7 +5,9 @@ CHANGES
 2.2 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Fix: escape special HTML characters at ``Column.renderHeadCell``, 
+  ``NameColumn.getName``, ``CheckBoxColumn`` name and value,
+  ``RadioColumn`` name and value, ``LinkColumn`` href and link content.
 
 
 2.1 (2019-01-27)

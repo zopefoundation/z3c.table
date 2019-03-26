@@ -20,7 +20,7 @@ import datetime
 import zope.interface
 import zope.component
 import zope.traversing.testing
-from zope.container import btree, ordered
+from zope.container import btree, contained, ordered
 from zope.dublincore.interfaces import IZopeDublinCore
 from zope.security import checker
 from zope.site.testing import siteSetUp, siteTearDown
@@ -62,7 +62,7 @@ class OrderedContainer(ordered.OrderedContainer):
     __name__ = u"container"
 
 
-class Content(object):
+class Content(contained.Contained):
     """Sample content."""
 
     def __init__(self, title, number):

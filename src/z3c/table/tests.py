@@ -14,9 +14,12 @@
 import re
 import unittest
 import doctest
+import zope.traversing.testing
+
 from zope.publisher.browser import TestRequest
 from zope.interface.verify import verifyObject
 
+from zope.site.testing import siteSetUp, siteTearDown
 from zope.testing.renormalizing import RENormalizing
 
 from z3c.batching.batch import Batch
@@ -117,6 +120,16 @@ class TestColumn(InterfaceBaseTest, unittest.TestCase):
         t = table.Table(None, TestRequest())
         return ({}, TestRequest(), t)
 
+    def test_renderHeadCell(self):
+        context = Mock()
+        tbl = Mock()
+        col = column.Column(context, TestRequest(), tbl)
+        col.header = u"FooBar"
+        self.assertEqual(col.renderHeadCell(), u"FooBar")
+
+        col.header = u'14" <monitor>'
+        self.assertEqual(col.renderHeadCell(), u"14&quot; &lt;monitor&gt;")
+
 
 class TestNoneCell(InterfaceBaseTest, unittest.TestCase):
     def getTestInterface(self):
@@ -141,6 +154,18 @@ class TestNameColumn(InterfaceBaseTest, unittest.TestCase):
         t = table.Table(None, TestRequest())
         return ({}, TestRequest(), t)
 
+    def test_renderCell(self):
+        item = Mock()
+        item.__name__ = "ItemName"
+        context = Mock()
+        tbl = Mock()
+        tbl.selectedItems = []
+        col = column.NameColumn(context, TestRequest(), tbl)
+        self.assertEqual(col.renderCell(item), u"ItemName")
+
+        item.__name__ = '14" <monitor>'
+        self.assertEqual(col.renderCell(item), u"14&quot; &lt;monitor&gt;")
+
 
 class TestRadioColumn(InterfaceBaseTest, unittest.TestCase):
     def getTestInterface(self):
@@ -153,6 +178,41 @@ class TestRadioColumn(InterfaceBaseTest, unittest.TestCase):
         t = table.Table(None, TestRequest())
         return ({}, TestRequest(), t)
 
+    def test_renderCell(self):
+        item = Mock()
+        item.__name__ = "ItemName"
+        context = Mock()
+        tbl = Mock()
+        tbl.selectedItems = []
+        col = column.RadioColumn(context, TestRequest(), tbl)
+        col.id = "foo&bar"
+        out = col.renderCell(item)
+        self.assertEqual(
+            out,
+            u'<input type="radio" class="radio-widget" '
+            u'name="foo&amp;bar-selectedItem" value="ItemName" />',
+        )
+
+        tbl.selectedItems = [item]
+        out = col.renderCell(item)
+        self.assertEqual(
+            out,
+            u'<input type="radio" class="radio-widget" '
+            u'name="foo&amp;bar-selectedItem" value="ItemName" '
+            u'checked="checked" />',
+        )
+
+        # now let's see how to-be-encoded item __name__ works
+        tbl.selectedItems = []
+        item.__name__ = '14" <monitor>'
+        out = col.renderCell(item)
+        self.assertEqual(
+            out,
+            u'<input type="radio" class="radio-widget" '
+            u'name="foo&amp;bar-selectedItem" '
+            u'value="14&quot; &lt;monitor&gt;" />',
+        )
+
 
 class TestCheckBoxColumn(InterfaceBaseTest, unittest.TestCase):
     def getTestInterface(self):
@@ -164,6 +224,185 @@ class TestCheckBoxColumn(InterfaceBaseTest, unittest.TestCase):
     def getTestPos(self):
         t = table.Table(None, TestRequest())
         return ({}, TestRequest(), t)
+
+    def test_renderCell(self):
+        item = Mock()
+        item.__name__ = "ItemName"
+        context = Mock()
+        tbl = Mock()
+        tbl.selectedItems = []
+        col = column.CheckBoxColumn(context, TestRequest(), tbl)
+        col.id = "foo&bar"
+        out = col.renderCell(item)
+        self.assertEqual(
+            out,
+            u'<input type="checkbox" class="checkbox-widget" '
+            u'name="foo&amp;bar-selectedItems" value="ItemName" />',
+        )
+
+        tbl.selectedItems = [item]
+        out = col.renderCell(item)
+        self.assertEqual(
+            out,
+            u'<input type="checkbox" class="checkbox-widget" '
+            u'name="foo&amp;bar-selectedItems" value="ItemName" '
+            u'checked="checked" />',
+        )
+
+        # now let's see how to-be-encoded item __name__ works
+        tbl.selectedItems = []
+        item.__name__ = '14" <monitor>'
+        out = col.renderCell(item)
+        self.assertEqual(
+            out,
+            u'<input type="checkbox" class="checkbox-widget" '
+            u'name="foo&amp;bar-selectedItems" '
+            u'value="14&quot; &lt;monitor&gt;" />',
+        )
+
+
+class TestLinkColumn(InterfaceBaseTest, unittest.TestCase):
+    def setUp(self):
+        self.root = siteSetUp(True)
+        self.container = testing.Container()
+        self.root["container"] = self.container
+        zope.traversing.testing.setUp()
+
+    def tearDown(self):
+        siteTearDown()
+
+    def getTestInterface(self):
+        return interfaces.IColumn
+
+    def getTestClass(self):
+        return column.LinkColumn
+
+    def getTestPos(self):
+        t = table.Table(None, TestRequest())
+        return ({}, TestRequest(), t)
+
+    def test_getLinkContent(self):
+        item = Mock()
+        item.__name__ = "ItemName"
+        context = Mock()
+        tbl = Mock()
+        col = column.LinkColumn(context, TestRequest(), tbl)
+        self.assertEqual(col.getLinkContent(item), u"ItemName")
+
+        item.__name__ = '14" <monitor>'
+        self.assertEqual(col.getLinkContent(item), u'14" <monitor>')
+
+        col.linkContent = "Solo"
+        self.assertEqual(col.getLinkContent(item), u"Solo")
+
+        col.linkContent = '32" <TV>'
+        self.assertEqual(col.getLinkContent(item), u'32" <TV>')
+
+    def test_getLinkURL(self):
+        item = testing.Content(u"foobar", 42)
+        self.container["fourty-two"] = item
+        request = TestRequest()
+        tbl = table.Table(None, request)
+        col = column.LinkColumn(self.root, request, tbl)
+        self.assertEqual(
+            col.getLinkURL(item),
+            "http://127.0.0.1/container/fourty-two"
+        )
+        col.linkName = u'index.html'
+        self.assertEqual(
+            col.getLinkURL(item),
+            "http://127.0.0.1/container/fourty-two/index.html"
+        )
+
+        item = testing.Content(u"another bar", 2)
+        self.container['14" <monitor>'] = item
+        self.assertEqual(
+            col.getLinkURL(item),
+            "http://127.0.0.1/container/14%22%20%3Cmonitor%3E/index.html"
+        )
+
+    def test_renderCell(self):
+        item = testing.Content(u"foobar", 42)
+        self.container["fourty-two"] = item
+        request = TestRequest()
+        tbl = table.Table(None, request)
+        col = column.LinkColumn(self.root, request, tbl)
+        self.assertEqual(
+            col.renderCell(item),
+            '<a href="http://127.0.0.1/container/fourty-two">fourty-two</a>'
+        )
+
+        item = testing.Content(u"another bar", 2)
+        self.container['14" <monitor>'] = item
+        self.assertEqual(
+            col.renderCell(item),
+            '<a href="http://127.0.0.1/container/14%22%20%3Cmonitor%3E">'
+            "14&quot; &lt;monitor&gt;</a>"
+        )
+
+
+class TestEMailColumn(InterfaceBaseTest, unittest.TestCase):
+    def setUp(self):
+        self.root = siteSetUp(True)
+        self.container = testing.Container()
+        self.root["container"] = self.container
+        zope.traversing.testing.setUp()
+
+    def tearDown(self):
+        siteTearDown()
+
+    def getTestInterface(self):
+        return interfaces.IColumn
+
+    def getTestClass(self):
+        return column.EMailColumn
+
+    def getTestPos(self):
+        t = table.Table(None, TestRequest())
+        return ({}, TestRequest(), t)
+
+    def test_getLinkContent(self):
+        item = Mock()
+        item.__name__ = "ItemName"
+        item.title = u"fooTitle"
+        context = Mock()
+        tbl = Mock()
+        col = column.EMailColumn(context, TestRequest(), tbl)
+        col.attrName = "title"
+        self.assertEqual(col.getLinkContent(item), u"fooTitle")
+
+        item.title = '14" <monitor>'
+        self.assertEqual(col.getLinkContent(item), u'14" <monitor>')
+
+        col.linkContent = "Solo"
+        self.assertEqual(col.getLinkContent(item), u"Solo")
+
+        col.linkContent = '32" <TV>'
+        self.assertEqual(col.getLinkContent(item), u'32" <TV>')
+
+    def test_renderCell(self):
+        item = testing.Content(u"", 42)
+        self.container["fourty-two"] = item
+        request = TestRequest()
+        tbl = table.Table(None, request)
+        col = column.EMailColumn(self.root, request, tbl)
+        col.attrName = "title"
+        self.assertEqual(col.renderCell(item), "")
+
+        item.title = u"foo@mail.com"
+        self.assertEqual(
+            col.renderCell(item),
+            '<a href="mailto:foo@mail.com">foo@mail.com</a>',
+        )
+
+        # according to RFC 5321 an email addr can contain <>&
+        item = testing.Content(u"John Doe <john@mail.com>", 2)
+        self.container["john"] = item
+        self.assertEqual(
+            col.renderCell(item),
+            '<a href="mailto:John Doe &lt;john@mail.com&gt;">'
+            "John Doe &lt;john@mail.com&gt;</a>",
+        )
 
 
 # batch
@@ -178,6 +417,10 @@ class TestBatchProvider(InterfaceBaseTest, unittest.TestCase):
         t = table.Table(None, TestRequest())
         t.rows = Batch([])
         return ({}, TestRequest(), t)
+
+
+class Mock(object):
+    pass
 
 
 def test_suite():

@@ -265,7 +265,10 @@ class IColumnHeader(zope.interface.Interface):
         """Override this method in subclasses if required"""
 
     def render():
-        """Override this method in subclasses"""
+        """Return the HTML output for the header
+
+        Make sure HTML special chars are escaped.
+        Override this method in subclasses"""
 
     def getQueryStringArgs():
         """
