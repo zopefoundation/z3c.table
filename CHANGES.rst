@@ -2,8 +2,8 @@
 CHANGES
 =======
 
-2.2 (unreleased)
-----------------
+2.1.1 (2019-03-26)
+------------------
 
 - Fix: escape special HTML characters at ``Column.renderHeadCell``, 
   ``NameColumn.getName``, ``CheckBoxColumn`` name and value,
