@@ -5,13 +5,14 @@ CHANGES
 2.2 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Make sure that the HTML escaping always uses is a string
+  Turns out that the assumption that the value is always a string was wrong.
 
 
 2.1.1 (2019-03-26)
 ------------------
 
-- Fix: escape special HTML characters at ``Column.renderHeadCell``, 
+- Fix: escape special HTML characters at ``Column.renderHeadCell``,
   ``NameColumn.getName``, ``CheckBoxColumn`` name and value,
   ``RadioColumn`` name and value, ``LinkColumn`` href and link content.
 

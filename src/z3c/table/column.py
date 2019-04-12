@@ -71,6 +71,13 @@ def addColumn(
     return column
 
 
+def htmlEscape(value):
+    # make sure that the value escaped is a string
+    # otherwise html.escape would burp on any non-string
+    # the result will be anyway converted to a string with % interpolation
+    return html.escape(u"%s" % value)
+
+
 def getName(item):
     # probably not IPhysicallyLocatable but still could have a __name__
     try:
@@ -127,7 +134,7 @@ class Column(zope.location.Location):
             # HTML escaping is the responsibility of IColumnHeader.render
             return header.render()
         # make sure we don't output HTML special chars
-        return html.escape(
+        return htmlEscape(
             zope.i18n.translate(self.header, context=self.request)
         )
 
@@ -160,7 +167,7 @@ class NameColumn(Column):
     header = _("Name")
 
     def renderCell(self, item):
-        return html.escape(getName(item))
+        return htmlEscape(getName(item))
 
 
 try:
@@ -213,8 +220,8 @@ class RadioColumn(Column):
             selected = ' checked="checked"'
         return u'<input type="radio" class="%s" name="%s" value="%s"%s />' % (
             "radio-widget",
-            html.escape(self.getItemKey(item)),
-            html.escape(self.getItemValue(item)),
+            htmlEscape(self.getItemKey(item)),
+            htmlEscape(self.getItemValue(item)),
             selected,
         )
 
@@ -265,8 +272,8 @@ class CheckBoxColumn(Column):
             u'<input type="checkbox" class="%s" name="%s" value="%s"%s />'
             % (
                 "checkbox-widget",
-                html.escape(self.getItemKey(item)),
-                html.escape(self.getItemValue(item)),
+                htmlEscape(self.getItemKey(item)),
+                htmlEscape(self.getItemValue(item)),
                 selected,
             )
         )
@@ -401,7 +408,7 @@ class LinkColumn(Column):
     def getLinkTitle(self, item):
         """Setup link title."""
         return (
-            ' title="%s"' % html.escape(self.linkTitle)
+            ' title="%s"' % htmlEscape(self.linkTitle)
             if self.linkTitle
             else ""
         )
@@ -419,11 +426,11 @@ class LinkColumn(Column):
     def renderCell(self, item):
         # setup a tag
         return '<a href="%s"%s%s%s>%s</a>' % (
-            html.escape(self.getLinkURL(item)),
+            htmlEscape(self.getLinkURL(item)),
             self.getLinkTarget(item),
             self.getLinkCSS(item),
             self.getLinkTitle(item),
-            html.escape(self.getLinkContent(item)),
+            htmlEscape(self.getLinkContent(item)),
         )
 
 
