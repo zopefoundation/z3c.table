@@ -1,7 +1,7 @@
+# Generated from:
+# https://github.com/zopefoundation/meta/tree/master/config/pure-python
 include *.rst
 include *.txt
-include .coveragerc
-include bootstrap.py
 include buildout.cfg
 include tox.ini
 
