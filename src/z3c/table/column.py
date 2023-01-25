@@ -11,17 +11,10 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-"""
-$Id:$
-"""
 __docformat__ = "reStructuredText"
 
-try:
-    from urllib import urlencode
-except ImportError:
-    from urllib.parse import urlencode
-
 import html
+from urllib.parse import urlencode
 
 import zope.i18n
 import zope.i18nmessageid
@@ -99,7 +92,7 @@ class Column(zope.location.Location):
     # customize this part if needed
     colspan = 0
     weight = 0
-    header = u""
+    header = ""
     cssClasses = {}
 
     def __init__(self, context, request, table):
@@ -139,7 +132,7 @@ class Column(zope.location.Location):
         raise NotImplementedError("Subclass must implement renderCell")
 
     def __repr__(self):
-        return "<%s %r>" % (self.__class__.__name__, self.__name__)
+        return "<{} {!r}>".format(self.__class__.__name__, self.__name__)
 
 
 @zope.interface.implementer(interfaces.INoneCell)
@@ -150,10 +143,10 @@ class NoneCell(Column):
         return 0
 
     def renderHeadCell(self):
-        return u""
+        return ""
 
     def renderCell(self, item):
-        return u""
+        return ""
 
 
 # predefined columns
@@ -211,15 +204,16 @@ class RadioColumn(Column):
             self.selectedItem = items.pop()
 
     def renderCell(self, item):
-        selected = u""
+        selected = ""
         if item == self.selectedItem:
             selected = ' checked="checked"'
-        return u'<input type="radio" class="%s" name="%s" value="%s"%s />' % (
-            "radio-widget",
-            html.escape(self.getItemKey(item)),
-            html.escape(self.getItemValue(item)),
-            selected,
-        )
+        return (
+            '<input type="radio" class="{}" name="{}" value="{}"{} />'.format(
+                "radio-widget",
+                html.escape(self.getItemKey(item)),
+                html.escape(self.getItemValue(item)),
+                selected,
+            ))
 
 
 class CheckBoxColumn(Column):
@@ -261,11 +255,11 @@ class CheckBoxColumn(Column):
         ]
 
     def renderCell(self, item):
-        selected = u""
+        selected = ""
         if item in self.selectedItems:
             selected = ' checked="checked"'
         return (
-            u'<input type="checkbox" class="%s" name="%s" value="%s"%s />'
+            '<input type="checkbox" class="%s" name="%s" value="%s"%s />'
             % (
                 "checkbox-widget",
                 html.escape(self.getItemKey(item)),
@@ -279,7 +273,7 @@ class GetAttrColumn(Column):
     """Get attribute column."""
 
     attrName = None
-    defaultValue = u""
+    defaultValue = ""
 
     def getValue(self, obj):
         if obj is not None and self.attrName is not None:
@@ -294,7 +288,7 @@ class GetItemColumn(Column):
     """Get value from item index/key column."""
 
     idx = None
-    defaultValue = u""
+    defaultValue = ""
 
     def getValue(self, obj):
         if obj is not None and self.idx is not None:
@@ -318,10 +312,10 @@ class I18nGetAttrColumn(GetAttrColumn):
 class FormatterColumn(Column):
     """Formatter column."""
 
-    formatterCategory = u"dateTime"
-    formatterLength = u"medium"
+    formatterCategory = "dateTime"
+    formatterLength = "medium"
     formatterName = None
-    formatterCalendar = u"gregorian"
+    formatterCalendar = "gregorian"
 
     def getFormatter(self):
         return self.request.locale.dates.getFormatter(
@@ -349,8 +343,8 @@ class CreatedColumn(FormatterColumn, GetAttrColumn):
     header = _("Created")
     weight = 100
 
-    formatterCategory = u"dateTime"
-    formatterLength = u"short"
+    formatterCategory = "dateTime"
+    formatterLength = "short"
     attrName = "created"
 
     def renderCell(self, item):
@@ -368,8 +362,8 @@ class ModifiedColumn(FormatterColumn, GetAttrColumn):
     header = _("Modified")
     weight = 110
 
-    formatterCategory = u"dateTime"
-    formatterLength = u"short"
+    formatterCategory = "dateTime"
+    formatterLength = "short"
     attrName = "modified"
 
     def renderCell(self, item):
@@ -394,7 +388,8 @@ class LinkColumn(Column):
     def getLinkURL(self, item):
         """Setup link url."""
         if self.linkName is not None:
-            return "%s/%s" % (absoluteURL(item, self.request), self.linkName)
+            return "{}/{}".format(
+                absoluteURL(item, self.request), self.linkName)
         return absoluteURL(item, self.request)
 
     def getLinkCSS(self, item):
@@ -421,7 +416,7 @@ class LinkColumn(Column):
 
     def renderCell(self, item):
         # setup a tag
-        return '<a href="%s"%s%s%s>%s</a>' % (
+        return '<a href="{}"{}{}{}>{}</a>'.format(
             html.escape(self.getLinkURL(item)),
             self.getLinkTarget(item),
             self.getLinkCSS(item),
@@ -433,9 +428,9 @@ class LinkColumn(Column):
 class EMailColumn(LinkColumn, GetAttrColumn):
     "Column to display mailto links."
 
-    header = _(u"E-Mail")
+    header = _("E-Mail")
     attrName = None  # attribute name which contains the mail address
-    defaultValue = u""  # value which is rendered when no value is found
+    defaultValue = ""  # value which is rendered when no value is found
     linkContent = None
 
     def getLinkURL(self, item):
@@ -450,7 +445,7 @@ class EMailColumn(LinkColumn, GetAttrColumn):
         value = self.getValue(item)
         if value is self.defaultValue or value is None:
             return self.defaultValue
-        return super(EMailColumn, self).renderCell(item)
+        return super().renderCell(item)
 
 
 def ensureList(item):
@@ -466,7 +461,7 @@ class SelectedItemColumn(LinkColumn):
 
     @property
     def viewURL(self):
-        return "%s/%s" % (
+        return "{}/{}".format(
             absoluteURL(self.context, self.request),
             self.table.__name__,
         )
@@ -487,7 +482,7 @@ class SelectedItemColumn(LinkColumn):
 
     def getLinkURL(self, item):
         """Setup link url."""
-        return "%s?%s" % (
+        return "{}?{}".format(
             self.viewURL,
             urlencode({self.getItemKey(item): self.getItemValue(item)}),
         )

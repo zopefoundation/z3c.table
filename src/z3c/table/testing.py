@@ -37,15 +37,15 @@ from z3c.table import table
 class TitleColumn(column.Column):
 
     weight = 10
-    header = u"Title"
+    header = "Title"
 
     def renderCell(self, item):
-        return u"Title: %s" % item.title
+        return "Title: %s" % item.title
 
 
 class NumberColumn(column.Column):
 
-    header = u"Number"
+    header = "Number"
     weight = 20
 
     def getSortKey(self, item):
@@ -58,13 +58,13 @@ class NumberColumn(column.Column):
 class Container(btree.BTreeContainer):
     """Sample container."""
 
-    __name__ = u"container"
+    __name__ = "container"
 
 
 class OrderedContainer(ordered.OrderedContainer):
     """Sample container."""
 
-    __name__ = u"container"
+    __name__ = "container"
 
 
 class Content(contained.Contained):
@@ -81,28 +81,28 @@ class SimpleTable(table.Table):
             column.addColumn(
                 self,
                 TitleColumn,
-                u"title",
+                "title",
                 cellRenderer=cellRenderer,
                 headCellRenderer=headCellRenderer,
                 weight=1,
             ),
             column.addColumn(
-                self, NumberColumn, name=u"number", weight=2, header=u"Number"
+                self, NumberColumn, name="number", weight=2, header="Number"
             ),
         ]
 
 
 def headCellRenderer():
-    return u"My items"
+    return "My items"
 
 
 def cellRenderer(item):
-    return u"%s item" % item.title
+    return "%s item" % item.title
 
 
 @zope.interface.implementer(IZopeDublinCore)
 @zope.component.adapter(zope.interface.Interface)
-class DublinCoreAdapterStub(object):
+class DublinCoreAdapterStub:
     """Dublin core adapter stub."""
 
     __Security_checker__ = checker.Checker(

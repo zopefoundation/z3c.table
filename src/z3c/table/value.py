@@ -23,7 +23,7 @@ from z3c.table import interfaces
 
 
 @zope.interface.implementer(interfaces.IValues)
-class ValuesMixin(object):
+class ValuesMixin:
     """Mixin for different value adapters."""
 
     def __init__(self, context, request, table):

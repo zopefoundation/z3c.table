@@ -11,30 +11,20 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-"""
-$Id$
-"""
 __docformat__ = "reStructuredText"
 
 
-from z3c.table.i18n import _
-
-
-try:
-    # Python 2
-    from urllib import urlencode
-except ImportError:
-    # Python 3
-    from urllib.parse import urlencode
+from urllib.parse import urlencode
 
 import zope.i18n
 import zope.interface
 
 import z3c.table.interfaces
+from z3c.table.i18n import _
 
 
 @zope.interface.implementer(z3c.table.interfaces.IColumnHeader)
-class ColumnHeader(object):
+class ColumnHeader:
     """ColumnHeader renderer provider"""
 
     _request_args = []
@@ -104,7 +94,7 @@ class SortingColumnHeader(ColumnHeader):
         )
         queryString = "?%s" % (urlencode(sorted(args.items())))
 
-        return '<a href="%s" title="%s">%s</a>' % (
+        return '<a href="{}" title="{}">{}</a>'.format(
             queryString,
             zope.i18n.translate(_("Sort"), context=self.request),
             zope.i18n.translate(self.column.header, context=self.request),

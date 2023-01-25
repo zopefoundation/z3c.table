@@ -11,12 +11,7 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-try:
-    # Python 2
-    from urllib import urlencode
-except ImportError:
-    # Python 3
-    from urllib.parse import urlencode
+from urllib.parse import urlencode
 
 import zope.i18nmessageid
 import zope.interface
@@ -30,7 +25,7 @@ _ = zope.i18nmessageid.MessageFactory("z3c")
 
 
 @zope.interface.implementer(interfaces.IBatchProvider)
-class BatchProvider(object):
+class BatchProvider:
     """Batch content provider.
 
     A batch provider is responsible for rendering the batch HTML and not for
@@ -70,7 +65,7 @@ class BatchProvider(object):
 
     prevBatchSize = 3
     nextBatchSize = 3
-    batchSpacer = u"..."
+    batchSpacer = "..."
 
     _request_args = ["%(prefix)s-sortOn", "%(prefix)s-sortOrder"]
 
@@ -103,8 +98,8 @@ class BatchProvider(object):
         tableURL = absoluteURL(self.table, self.request)
         idx = batch.index + 1
         css = ' class="%s"' % cssClass
-        cssClass = cssClass and css or u""
-        return '<a href="%s?%s"%s>%s</a>' % (tableURL, query, cssClass, idx)
+        cssClass = cssClass and css or ""
+        return f'<a href="{tableURL}?{query}"{cssClass}>{idx}</a>'
 
     def update(self):
         # 3 is is the placeholder for the first, current and last item.
@@ -157,4 +152,4 @@ class BatchProvider(object):
                 append(self.renderBatchLink(batch, css))
             else:
                 append(self.renderBatchLink(batch))
-        return u"\n".join(res)
+        return "\n".join(res)
