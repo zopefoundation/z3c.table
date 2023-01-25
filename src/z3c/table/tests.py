@@ -11,23 +11,23 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
+import doctest
 import re
 import unittest
-import doctest
+
 import zope.traversing.testing
-
-from zope.publisher.browser import TestRequest
+from z3c.batching.batch import Batch
 from zope.interface.verify import verifyObject
-
-from zope.site.testing import siteSetUp, siteTearDown
+from zope.publisher.browser import TestRequest
+from zope.site.testing import siteSetUp
+from zope.site.testing import siteTearDown
 from zope.testing.renormalizing import RENormalizing
 
-from z3c.batching.batch import Batch
-from z3c.table import testing
+from z3c.table import batch
+from z3c.table import column
 from z3c.table import interfaces
 from z3c.table import table
-from z3c.table import column
-from z3c.table import batch
+from z3c.table import testing
 
 
 class FakeContainer(object):

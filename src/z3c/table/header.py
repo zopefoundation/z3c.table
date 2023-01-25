@@ -19,15 +19,18 @@ __docformat__ = "reStructuredText"
 
 from z3c.table.i18n import _
 
+
 try:
     # Python 2
     from urllib import urlencode
 except ImportError:
     # Python 3
     from urllib.parse import urlencode
-import z3c.table.interfaces
+
 import zope.i18n
 import zope.interface
+
+import z3c.table.interfaces
 
 
 @zope.interface.implementer(z3c.table.interfaces.IColumnHeader)

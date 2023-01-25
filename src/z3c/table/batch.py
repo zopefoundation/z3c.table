@@ -18,12 +18,13 @@ except ImportError:
     # Python 3
     from urllib.parse import urlencode
 
-import zope.interface
 import zope.i18nmessageid
+import zope.interface
+from z3c.batching.batch import first_neighbours_last
 from zope.traversing.browser import absoluteURL
 
 from z3c.table import interfaces
-from z3c.batching.batch import first_neighbours_last
+
 
 _ = zope.i18nmessageid.MessageFactory("z3c")
 

@@ -11,10 +11,11 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-from z3c.table.i18n import _
 import zope.contentprovider.interfaces
 import zope.interface
 import zope.schema
+
+from z3c.table.i18n import _
 
 
 class IValues(zope.interface.Interface):

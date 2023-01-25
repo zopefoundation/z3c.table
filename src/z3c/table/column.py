@@ -21,16 +21,19 @@ try:
 except ImportError:
     from urllib.parse import urlencode
 
-from z3c.table import interfaces
-from zope.dublincore.interfaces import IZopeDublinCore
-from zope.security.interfaces import Unauthorized
-from zope.traversing import api
-from zope.traversing.browser import absoluteURL
 import html
+
 import zope.i18n
 import zope.i18nmessageid
 import zope.interface
 import zope.location
+from zope.dublincore.interfaces import IZopeDublinCore
+from zope.security.interfaces import Unauthorized
+from zope.traversing import api
+from zope.traversing.browser import absoluteURL
+
+from z3c.table import interfaces
+
 
 _ = zope.i18nmessageid.MessageFactory("z3c")
 

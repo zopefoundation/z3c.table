@@ -13,14 +13,14 @@
 ##############################################################################
 from xml.sax.saxutils import quoteattr
 
-import zope.interface
 import zope.component
+import zope.interface
 import zope.location
-
-from z3c.batching.interfaces import IBatch
 from z3c.batching.batch import Batch
-from z3c.table import interfaces
+from z3c.batching.interfaces import IBatch
+
 from z3c.table import column
+from z3c.table import interfaces
 
 
 def getWeight(column):

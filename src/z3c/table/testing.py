@@ -17,16 +17,21 @@ $Id:$
 __docformat__ = "reStructuredText"
 
 import datetime
-import zope.interface
+
 import zope.component
+import zope.interface
 import zope.traversing.testing
-from zope.container import btree, contained, ordered
+from zope.container import btree
+from zope.container import contained
+from zope.container import ordered
 from zope.dublincore.interfaces import IZopeDublinCore
 from zope.security import checker
-from zope.site.testing import siteSetUp, siteTearDown
+from zope.site.testing import siteSetUp
+from zope.site.testing import siteTearDown
 
-from z3c.table import column, table
 import z3c.table.value
+from z3c.table import column
+from z3c.table import table
 
 
 class TitleColumn(column.Column):
