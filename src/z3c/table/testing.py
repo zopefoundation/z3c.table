@@ -17,30 +17,35 @@ $Id:$
 __docformat__ = "reStructuredText"
 
 import datetime
-import zope.interface
+
 import zope.component
+import zope.interface
 import zope.traversing.testing
-from zope.container import btree, contained, ordered
+from zope.container import btree
+from zope.container import contained
+from zope.container import ordered
 from zope.dublincore.interfaces import IZopeDublinCore
 from zope.security import checker
-from zope.site.testing import siteSetUp, siteTearDown
+from zope.site.testing import siteSetUp
+from zope.site.testing import siteTearDown
 
-from z3c.table import column, table
 import z3c.table.value
+from z3c.table import column
+from z3c.table import table
 
 
 class TitleColumn(column.Column):
 
     weight = 10
-    header = u"Title"
+    header = "Title"
 
     def renderCell(self, item):
-        return u"Title: %s" % item.title
+        return "Title: %s" % item.title
 
 
 class NumberColumn(column.Column):
 
-    header = u"Number"
+    header = "Number"
     weight = 20
 
     def getSortKey(self, item):
@@ -53,13 +58,13 @@ class NumberColumn(column.Column):
 class Container(btree.BTreeContainer):
     """Sample container."""
 
-    __name__ = u"container"
+    __name__ = "container"
 
 
 class OrderedContainer(ordered.OrderedContainer):
     """Sample container."""
 
-    __name__ = u"container"
+    __name__ = "container"
 
 
 class Content(contained.Contained):
@@ -76,28 +81,28 @@ class SimpleTable(table.Table):
             column.addColumn(
                 self,
                 TitleColumn,
-                u"title",
+                "title",
                 cellRenderer=cellRenderer,
                 headCellRenderer=headCellRenderer,
                 weight=1,
             ),
             column.addColumn(
-                self, NumberColumn, name=u"number", weight=2, header=u"Number"
+                self, NumberColumn, name="number", weight=2, header="Number"
             ),
         ]
 
 
 def headCellRenderer():
-    return u"My items"
+    return "My items"
 
 
 def cellRenderer(item):
-    return u"%s item" % item.title
+    return "%s item" % item.title
 
 
 @zope.interface.implementer(IZopeDublinCore)
 @zope.component.adapter(zope.interface.Interface)
-class DublinCoreAdapterStub(object):
+class DublinCoreAdapterStub:
     """Dublin core adapter stub."""
 
     __Security_checker__ = checker.Checker(

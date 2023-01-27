@@ -13,14 +13,14 @@
 ##############################################################################
 from xml.sax.saxutils import quoteattr
 
-import zope.interface
 import zope.component
+import zope.interface
 import zope.location
-
-from z3c.batching.interfaces import IBatch
 from z3c.batching.batch import Batch
-from z3c.table import interfaces
+from z3c.batching.interfaces import IBatch
+
 from z3c.table import column
+from z3c.table import interfaces
 
 
 def getWeight(column):
@@ -58,16 +58,16 @@ class Table(zope.location.Location):
     # css classes
     cssClasses = {}
     # additional (row) css
-    cssClassEven = u""
-    cssClassOdd = u""
-    cssClassSelected = u""
+    cssClassEven = ""
+    cssClassOdd = ""
+    cssClassSelected = ""
     # css to show sorting, set to None to turn off
     cssClassSortedOn = "sorted-on"
 
     # sort attributes
     sortOn = 0
-    sortOrder = u"ascending"
-    reverseSortOrderNames = [u"descending", u"reverse", u"down"]
+    sortOrder = "ascending"
+    reverseSortOrderNames = ["descending", "reverse", "down"]
 
     # batch attributes
     batchProviderName = "batch"
@@ -128,7 +128,7 @@ class Table(zope.location.Location):
         """Add CSS class based on HTML tag, make a `class=` attribute"""
         klass = self.cssClasses.get(element)
         if klass and cssClass:
-            klass = "%s %s" % (cssClass, klass)
+            klass = "{} {}".format(cssClass, klass)
         elif cssClass:
             klass = cssClass
         return " class=%s" % quoteattr(klass) if klass else ""
@@ -154,7 +154,7 @@ class Table(zope.location.Location):
         for col in self.columns:
             self.columnByName[col.__name__] = col
             idx = self.columnCounter
-            col.id = "%s-%s-%s" % (self.prefix, col.__name__, idx)
+            col.id = "{}-{}-{}".format(self.prefix, col.__name__, idx)
             self.columnIndexById[col.id] = idx
             self.columnCounter += 1
 
@@ -247,7 +247,7 @@ class Table(zope.location.Location):
 
     def renderBatch(self):
         if self.batchProvider is None:
-            return u""
+            return ""
         return self.batchProvider.render()
 
     def renderTable(self):
@@ -255,29 +255,29 @@ class Table(zope.location.Location):
             cssClass = self.getCSSClass("table")
             head = self.renderHead()
             body = self.renderBody()
-            return "<table%s>%s%s\n</table>" % (cssClass, head, body)
-        return u""
+            return "<table{}>{}{}\n</table>".format(cssClass, head, body)
+        return ""
 
     def renderHead(self):
         cssClass = self.getCSSClass("thead")
         rStr = self.renderHeadRow()
-        return "\n  <thead%s>%s\n  </thead>" % (cssClass, rStr)
+        return "\n  <thead{}>{}\n  </thead>".format(cssClass, rStr)
 
     def renderHeadRow(self):
         cssClass = self.getCSSClass("tr")
         cells = [self.renderHeadCell(col) for col in self.columns]
-        return u"\n    <tr%s>%s\n    </tr>" % (cssClass, u"".join(cells))
+        return "\n    <tr{}>{}\n    </tr>".format(cssClass, "".join(cells))
 
     def renderHeadCell(self, column):
         cssClass = column.cssClasses.get("th")
         cssClass = self.getCSSSortClass(column, cssClass)
         cssClass = self.getCSSClass("th", cssClass)
-        return u"\n      <th%s>%s</th>" % (cssClass, column.renderHeadCell())
+        return f"\n      <th{cssClass}>{column.renderHeadCell()}</th>"
 
     def renderBody(self):
         cssClass = self.getCSSClass("tbody")
         rStr = self.renderRows()
-        return "\n  <tbody%s>%s\n  </tbody>" % (cssClass, rStr)
+        return f"\n  <tbody{cssClass}>{rStr}\n  </tbody>"
 
     def renderRows(self):
         counter = 0
@@ -287,29 +287,29 @@ class Table(zope.location.Location):
         for row in self.rows:
             append(self.renderRow(row, cssClasses[counter % 2]))
             counter += 1
-        return u"".join(rows)
+        return "".join(rows)
 
     def renderRow(self, row, cssClass=None):
         isSelected = self.isSelectedRow(row)
         if isSelected and self.cssClassSelected and cssClass:
-            cssClass = "%s %s" % (self.cssClassSelected, cssClass)
+            cssClass = "{} {}".format(self.cssClassSelected, cssClass)
         elif isSelected and self.cssClassSelected:
             cssClass = self.cssClassSelected
         cssClass = self.getCSSClass("tr", cssClass)
         cells = [
             self.renderCell(item, col, colspan) for item, col, colspan in row
         ]
-        return u"\n    <tr%s>%s\n    </tr>" % (cssClass, u"".join(cells))
+        return "\n    <tr{}>{}\n    </tr>".format(cssClass, "".join(cells))
 
     def renderCell(self, item, column, colspan=0):
         if interfaces.INoneCell.providedBy(column):
-            return u""
+            return ""
         cssClass = column.cssClasses.get("td")
         cssClass = self.getCSSHighlightClass(column, item, cssClass)
         cssClass = self.getCSSSortClass(column, cssClass)
         cssClass = self.getCSSClass("td", cssClass)
         colspanStr = ' colspan="%s"' % colspan if colspan else ""
-        return u"\n      <td%s%s>%s</td>" % (
+        return "\n      <td{}{}>{}</td>".format(
             cssClass,
             colspanStr,
             column.renderCell(item),
@@ -353,7 +353,7 @@ class Table(zope.location.Location):
         return self.renderTable()
 
     def __repr__(self):
-        return "<%s %r>" % (self.__class__.__name__, self.__name__)
+        return "<{} {!r}>".format(self.__class__.__name__, self.__name__)
 
 
 @zope.interface.implementer(interfaces.ISequenceTable)

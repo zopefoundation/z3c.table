@@ -11,10 +11,11 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-from z3c.table.i18n import _
 import zope.contentprovider.interfaces
 import zope.interface
 import zope.schema
+
+from z3c.table.i18n import _
 
 
 class IValues(zope.interface.Interface):
@@ -27,8 +28,8 @@ class ITable(zope.contentprovider.interfaces.IContentProvider):
     """Table provider"""
 
     columnCounter = zope.schema.Int(
-        title=_(u"Column counter"),
-        description=_(u"Column counter"),
+        title=_("Column counter"),
+        description=_("Column counter"),
         default=0
     )
 
@@ -58,66 +59,66 @@ class ITable(zope.contentprovider.interfaces.IContentProvider):
 
     # additional (row) css
     cssClassEven = zope.schema.TextLine(
-        title=u"Even css row class",
-        description=(u"CSS class for even rows."),
-        default=u"even",
+        title="Even css row class",
+        description=("CSS class for even rows."),
+        default="even",
         required=False,
     )
 
     cssClassOdd = zope.schema.TextLine(
-        title=u"Odd css row class",
-        description=(u"CSS class for odd rows."),
-        default=u"odd",
+        title="Odd css row class",
+        description=("CSS class for odd rows."),
+        default="odd",
         required=False,
     )
 
     cssClassSelected = zope.schema.TextLine(
-        title=u"Selected css row class",
-        description=(u"CSS class for selected rows."),
-        default=u"selected",
+        title="Selected css row class",
+        description=("CSS class for selected rows."),
+        default="selected",
         required=False,
     )
 
     # sort attributes
     sortOn = zope.schema.Int(
-        title=_(u"Sort on table index"),
-        description=_(u"Sort on table index"),
+        title=_("Sort on table index"),
+        description=_("Sort on table index"),
         default=0,
     )
 
     sortOrder = zope.schema.TextLine(
-        title=_(u"Sort order"),
-        description=_(u"Row sort order"),
-        default=u"ascending",
+        title=_("Sort order"),
+        description=_("Row sort order"),
+        default="ascending",
     )
 
     reverseSortOrderNames = zope.schema.List(
-        title=u"Selected css row class",
-        description=(u"CSS class for selected rows."),
+        title="Selected css row class",
+        description=("CSS class for selected rows."),
         value_type=zope.schema.TextLine(
-            title=_(u"Reverse sort order name"),
-            description=_(u"Reverse sort order name"),
+            title=_("Reverse sort order name"),
+            description=_("Reverse sort order name"),
         ),
-        default=[u"descending", u"reverse", u"down"],
+        default=["descending", "reverse", "down"],
         required=False,
     )
 
     # batch attributes
     batchStart = zope.schema.Int(
-        title=_(u"Batch start index"),
-        description=_(u"Index the batch starts with"),
+        title=_("Batch start index"),
+        description=_("Index the batch starts with"),
         default=0,
     )
 
     batchSize = zope.schema.Int(
-        title=_(u"Batch size"),
-        description=_(u"The batch size"),
+        title=_("Batch size"),
+        description=_("The batch size"),
         default=50
     )
 
     startBatchingAt = zope.schema.Int(
-        title=_(u"Batch start size"),
-        description=_(u"The minimal size the batch starts to get used"),
+        title=_("Batch start size"),
+        description=_("The minimal size the batch starts to get used"),
         default=50,
     )
 
@@ -206,28 +207,28 @@ class IColumn(zope.interface.Interface):
     """Column provider"""
 
     id = zope.schema.TextLine(
-        title=_(u"Id"),
-        description=_(u"The column id"),
+        title=_("Id"),
+        description=_("The column id"),
         default=None
     )
 
     # customize this part if needed
     colspan = zope.schema.Int(
-        title=_(u"Colspan"),
-        description=_(u"The colspan value"),
+        title=_("Colspan"),
+        description=_("The colspan value"),
         default=0
     )
 
     weight = zope.schema.Int(
-        title=_(u"Weight"),
-        description=_(u"The column weight"),
+        title=_("Weight"),
+        description=_("The column weight"),
         default=0
     )
 
     header = zope.schema.TextLine(
-        title=_(u"Header name"),
-        description=_(u"The header name"),
-        default=u""
+        title=_("Header name"),
+        description=_("The header name"),
+        default=""
     )
 
     cssClasses = zope.interface.Attribute(
