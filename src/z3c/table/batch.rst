@@ -650,3 +650,187 @@ Update the table and render the batch:
   <a href="...html?table-batchSize=5&table-batchStart=100&table-sortOn=table-number-1" class="current">21</a>
   xxx
   <a href="...html?table-batchSize=5&table-batchStart=1015&table-sortOn=table-number-1" class="last">204</a>
+
+Edge cases, do not fail hard when someone tries some weird batching values:
+
+  >>> batchingRequest = TestRequest(form={'table-batchStart': '11',
+  ...                                     'table-batchSize': 'foobar',
+  ...                                     'table-sortOn': 'table-number-1'})
+  >>> requestBatchingTable = SimpleTable(container, batchingRequest)
+  >>> requestBatchingTable.cssClassSortedOn = None
+
+  >>> requestBatchingTable.__parent__ = container
+  >>> requestBatchingTable.__name__ = u'requestBatchingTable.html'
+  >>> requestBatchingTable.batchSize = 3
+
+  >>> requestBatchingTable.startBatchingAt = 5
+  >>> requestBatchingTable.update()
+  >>> print(requestBatchingTable.render())
+  <table>
+    <thead>
+      <tr>
+        <th>My items</th>
+        <th>Number</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Twelfth item</td>
+        <td>number: 12</td>
+      </tr>
+      <tr>
+        <td>Thirteenth item</td>
+        <td>number: 13</td>
+      </tr>
+      <tr>
+        <td>Fourteenth item</td>
+        <td>number: 14</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  >>> batchingRequest = TestRequest(form={'table-batchStart': '0',
+  ...                                     'table-batchSize': '-10',
+  ...                                     'table-sortOn': 'table-number-1'})
+  >>> requestBatchingTable = SimpleTable(container, batchingRequest)
+  >>> requestBatchingTable.cssClassSortedOn = None
+
+  >>> requestBatchingTable.__parent__ = container
+  >>> requestBatchingTable.__name__ = u'requestBatchingTable.html'
+
+  >>> requestBatchingTable.startBatchingAt = 5
+  >>> requestBatchingTable.batchSize = 3
+  >>> requestBatchingTable.update()
+  >>> print(requestBatchingTable.render())
+  <table>
+    <thead>
+      <tr>
+        <th>My items</th>
+        <th>Number</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Zero item</td>
+        <td>number: 0</td>
+      </tr>
+      <tr>
+        <td>First item</td>
+        <td>number: 1</td>
+      </tr>
+      <tr>
+        <td>Second item</td>
+        <td>number: 2</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  >>> batchingRequest = TestRequest(form={'table-batchStart': 'foobar',
+  ...                                     'table-batchSize': '3',
+  ...                                     'table-sortOn': 'table-number-1'})
+  >>> requestBatchingTable = SimpleTable(container, batchingRequest)
+  >>> requestBatchingTable.cssClassSortedOn = None
+
+  >>> requestBatchingTable.__parent__ = container
+  >>> requestBatchingTable.__name__ = u'requestBatchingTable.html'
+
+  >>> requestBatchingTable.startBatchingAt = 5
+  >>> requestBatchingTable.update()
+  >>> print(requestBatchingTable.render())
+  <table>
+    <thead>
+      <tr>
+        <th>My items</th>
+        <th>Number</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Zero item</td>
+        <td>number: 0</td>
+      </tr>
+      <tr>
+        <td>First item</td>
+        <td>number: 1</td>
+      </tr>
+      <tr>
+        <td>Second item</td>
+        <td>number: 2</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  >>> batchingRequest = TestRequest(form={'table-batchStart': '99999',
+  ...                                     'table-batchSize': '3',
+  ...                                     'table-sortOn': 'table-number-1'})
+  >>> requestBatchingTable = SimpleTable(container, batchingRequest)
+  >>> requestBatchingTable.cssClassSortedOn = None
+
+  >>> requestBatchingTable.__parent__ = container
+  >>> requestBatchingTable.__name__ = u'requestBatchingTable.html'
+
+  >>> requestBatchingTable.startBatchingAt = 5
+  >>> requestBatchingTable.update()
+  >>> print(requestBatchingTable.render())
+  <table>
+    <thead>
+      <tr>
+        <th>My items</th>
+        <th>Number</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1017 item</td>
+        <td>number: 1017</td>
+      </tr>
+      <tr>
+        <td>1018 item</td>
+        <td>number: 1018</td>
+      </tr>
+      <tr>
+        <td>1019 item</td>
+        <td>number: 1019</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  >>> batchingRequest = TestRequest(form={'table-batchStart': '-10',
+  ...                                     'table-batchSize': 'foobar',
+  ...                                     'table-sortOn': 'table-number-1'})
+  >>> requestBatchingTable = SimpleTable(container, batchingRequest)
+  >>> requestBatchingTable.cssClassSortedOn = None
+
+  >>> requestBatchingTable.__parent__ = container
+  >>> requestBatchingTable.__name__ = u'requestBatchingTable.html'
+  >>> requestBatchingTable.batchSize = 3
+
+  >>> requestBatchingTable.startBatchingAt = 5
+  >>> requestBatchingTable.update()
+  >>> print(requestBatchingTable.render())
+  <table>
+    <thead>
+      <tr>
+        <th>My items</th>
+        <th>Number</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Zero item</td>
+        <td>number: 0</td>
+      </tr>
+      <tr>
+        <td>First item</td>
+        <td>number: 1</td>
+      </tr>
+      <tr>
+        <td>Second item</td>
+        <td>number: 2</td>
+      </tr>
+    </tbody>
+  </table>

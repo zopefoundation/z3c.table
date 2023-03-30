@@ -379,3 +379,42 @@ Let's see the `title` column but descending:
       </tr>
     </tbody>
   </table>
+
+
+Edge case, do not fail hard when someone tries some weird sortOn value:
+
+  >>> sortingTable.sortOn = u'table-title-foobar'
+  >>> sortingTable.sortOrder = 'ascending'
+
+  >>> sortingTable.update()
+  >>> print(sortingTable.render())
+  <table>
+    <thead>
+      <tr>
+        <th><a href="?table-sortOn=table-title-0&table-sortOrder=ascending" title="Sort">Title</a></th>
+        <th><a href="?table-sortOn=table-number-1&table-sortOrder=ascending" title="Sort">Number</a></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Title: First</td>
+        <td>number: 1</td>
+      </tr>
+      <tr>
+        <td>Title: Fourth</td>
+        <td>number: 4</td>
+      </tr>
+      <tr>
+        <td>Title: Second</td>
+        <td>number: 2</td>
+      </tr>
+      <tr>
+        <td>Title: Third</td>
+        <td>number: 3</td>
+      </tr>
+      <tr>
+        <td>Title: Zero</td>
+        <td>number: 0</td>
+      </tr>
+    </tbody>
+  </table>
