@@ -42,6 +42,20 @@ def getSortMethod(idx):
     return getSortKey
 
 
+def getCurrentSortID(sortOn):
+    # this may return a string 'id-name-idx' if coming from request,
+    # otherwise in Table class it is intialised as a integer string
+    try:
+        currentSortID = int(sortOn)
+    except ValueError:
+        currentSortID = sortOn.rsplit("-", 1)[-1]
+    try:
+        currentSortID = int(currentSortID)
+    except ValueError:
+        return None
+    return currentSortID
+
+
 def nameColumn(column, name):
     """Give a column a __name__."""
     column.__name__ = name
@@ -110,13 +124,10 @@ class Table(zope.location.Location):
     def getCSSSortClass(self, column, cssClass):
         """Add CSS class based on current sorting"""
         if self.cssClassSortedOn and self.sortOn is not None:
-            try:
-                currentSortID = int(self.sortOn)
-            except ValueError:
-                currentSortID = self.sortOn.rsplit("-", 1)[-1]
+            currentSortID = getCurrentSortID(self.sortOn)
             sortID = column.id.rsplit("-", 1)[-1]
 
-            if int(sortID) == int(currentSortID):
+            if int(sortID) == currentSortID:
                 klass = self.cssClassSortedOn + " " + self.sortOrder
                 if cssClass:
                     cssClass += " " + klass
@@ -213,17 +224,32 @@ class Table(zope.location.Location):
     # batch
 
     def getBatchSize(self):
-        return int(
-            self.request.get(self.prefix + "-batchSize", self.batchSize)
-        )
+        try:
+            newSize = int(
+                self.request.get(self.prefix + "-batchSize", self.batchSize)
+            )
+        except ValueError:
+            newSize = self.batchSize
+        if newSize < 1:
+            newSize = self.batchSize
+        return newSize
 
     def getBatchStart(self):
-        return int(
-            self.request.get(self.prefix + "-batchStart", self.batchStart)
-        )
+        try:
+            return int(
+                self.request.get(self.prefix + "-batchStart", self.batchStart)
+            )
+        except ValueError:
+            return self.batchStart
 
     def batchRows(self):
-        if len(self.rows) > self.startBatchingAt:
+        length = len(self.rows)
+        if length > self.startBatchingAt:
+            if self.batchStart >= length:
+                self.batchStart = length - self.batchSize
+            if self.batchStart < 0:
+                self.batchStart = 0
+
             self.rows = Batch(
                 self.rows, start=self.batchStart, size=self.batchSize
             )

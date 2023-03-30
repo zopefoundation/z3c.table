@@ -9,6 +9,8 @@ CHANGES
 
 - Drop support for Python 2.7, 3.5, 3.6.
 
+- Protect against bad input in request parameters -- don't fail hard, use defaults
+
 
 2.2 (2022-02-11)
 ----------------

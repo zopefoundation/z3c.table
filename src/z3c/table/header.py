@@ -21,6 +21,7 @@ import zope.interface
 
 import z3c.table.interfaces
 from z3c.table.i18n import _
+from z3c.table.table import getCurrentSortID
 
 
 @zope.interface.implementer(z3c.table.interfaces.IColumnHeader)
@@ -68,20 +69,14 @@ class SortingColumnHeader(ColumnHeader):
         prefix = table.prefix
         colID = self.column.id
 
-        # this may return a string 'id-name-idx' if coming from request,
-        # otherwise in Table class it is intialised as a integer string
-        currentSortID = table.getSortOn()
-        try:
-            currentSortID = int(currentSortID)
-        except ValueError:
-            currentSortID = currentSortID.rsplit("-", 1)[-1]
+        currentSortID = getCurrentSortID(table.getSortOn())
 
         currentSortOrder = table.getSortOrder()
 
         sortID = colID.rsplit("-", 1)[-1]
 
         sortOrder = table.sortOrder
-        if int(sortID) == int(currentSortID):
+        if int(sortID) == currentSortID:
             # ordering the same column so we want to reverse the order
             if currentSortOrder in table.reverseSortOrderNames:
                 sortOrder = "ascending"
