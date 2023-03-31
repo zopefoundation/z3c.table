@@ -26,7 +26,7 @@ def read(*rnames):
 
 setup(
     name="z3c.table",
-    version='3.0',
+    version='3.1.dev0',
     author="Stephan Richter, Roger Ineichen and the Zope Community",
     author_email="zope-dev@zope.org",
     description="Modular table rendering implementation for Zope3",
