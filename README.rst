@@ -1,3 +1,10 @@
+.. caution::
+
+    This repository is no longer maintained and thus it got archived.
+
+    If you want to work on it please open a ticket in
+    https://github.com/zopefoundation/meta/issues requesting its unarchival.
+
 .. image:: https://img.shields.io/pypi/v/z3c.table.svg
         :target: https://pypi.python.org/pypi/z3c.table/
         :alt: Latest release
