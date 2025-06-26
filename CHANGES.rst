@@ -5,6 +5,8 @@ CHANGES
 4.0 (unreleased)
 ----------------
 
+- Add support for Python 3.12 and Python 3.13.
+
 - Replace ``pkg_resources`` namespace with PEP 420 native namespace.
 
 
