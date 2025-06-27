@@ -139,7 +139,7 @@ class Table(zope.location.Location):
         """Add CSS class based on HTML tag, make a `class=` attribute"""
         klass = self.cssClasses.get(element)
         if klass and cssClass:
-            klass = "{} {}".format(cssClass, klass)
+            klass = f"{cssClass} {klass}"
         elif cssClass:
             klass = cssClass
         return " class=%s" % quoteattr(klass) if klass else ""
@@ -165,7 +165,7 @@ class Table(zope.location.Location):
         for col in self.columns:
             self.columnByName[col.__name__] = col
             idx = self.columnCounter
-            col.id = "{}-{}-{}".format(self.prefix, col.__name__, idx)
+            col.id = f"{self.prefix}-{col.__name__}-{idx}"
             self.columnIndexById[col.id] = idx
             self.columnCounter += 1
 
@@ -281,13 +281,13 @@ class Table(zope.location.Location):
             cssClass = self.getCSSClass("table")
             head = self.renderHead()
             body = self.renderBody()
-            return "<table{}>{}{}\n</table>".format(cssClass, head, body)
+            return f"<table{cssClass}>{head}{body}\n</table>"
         return ""
 
     def renderHead(self):
         cssClass = self.getCSSClass("thead")
         rStr = self.renderHeadRow()
-        return "\n  <thead{}>{}\n  </thead>".format(cssClass, rStr)
+        return f"\n  <thead{cssClass}>{rStr}\n  </thead>"
 
     def renderHeadRow(self):
         cssClass = self.getCSSClass("tr")
@@ -318,7 +318,7 @@ class Table(zope.location.Location):
     def renderRow(self, row, cssClass=None):
         isSelected = self.isSelectedRow(row)
         if isSelected and self.cssClassSelected and cssClass:
-            cssClass = "{} {}".format(self.cssClassSelected, cssClass)
+            cssClass = f"{self.cssClassSelected} {cssClass}"
         elif isSelected and self.cssClassSelected:
             cssClass = self.cssClassSelected
         cssClass = self.getCSSClass("tr", cssClass)
@@ -379,7 +379,7 @@ class Table(zope.location.Location):
         return self.renderTable()
 
     def __repr__(self):
-        return "<{} {!r}>".format(self.__class__.__name__, self.__name__)
+        return f"<{self.__class__.__name__} {self.__name__!r}>"
 
 
 @zope.interface.implementer(interfaces.ISequenceTable)
