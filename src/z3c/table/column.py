@@ -132,7 +132,7 @@ class Column(zope.location.Location):
         raise NotImplementedError("Subclass must implement renderCell")
 
     def __repr__(self):
-        return "<{} {!r}>".format(self.__class__.__name__, self.__name__)
+        return f"<{self.__class__.__name__} {self.__name__!r}>"
 
 
 @zope.interface.implementer(interfaces.INoneCell)

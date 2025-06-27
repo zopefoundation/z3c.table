@@ -27,7 +27,7 @@ setup(
     name="z3c.table",
     version='3.1.dev0',
     author="Stephan Richter, Roger Ineichen and the Zope Community",
-    author_email="zope-dev@zope.org",
+    author_email="zope-dev@zope.dev",
     description="Modular table rendering implementation for Zope3",
     long_description=(
         read("README.rst")
@@ -46,7 +46,7 @@ setup(
         + "\n\n"
         + read("CHANGES.rst")
     ),
-    license="ZPL 2.1",
+    license="ZPL-2.1",
     keywords="zope3 z3c table content provider",
     classifiers=[
         "Development Status :: 4 - Beta",
@@ -55,8 +55,6 @@ setup(
         "License :: OSI Approved :: Zope Public License",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
@@ -71,7 +69,7 @@ setup(
     ],
     url="https://github.com/zopefoundation/z3c.table",
     include_package_data=True,
-    python_requires='>=3.7',
+    python_requires='>=3.9',
     extras_require=dict(
         test=[
             "zope.container",
