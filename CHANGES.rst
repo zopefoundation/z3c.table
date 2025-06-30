@@ -5,12 +5,11 @@ CHANGES
 4.0 (unreleased)
 ----------------
 
-- Drop support for Python 3.7, 3.8.
-
-- Add support for Python 3.12 and Python 3.13.
-
 - Replace ``pkg_resources`` namespace with PEP 420 native namespace.
 
+- Drop support for Python 3.7, 3.8.
+
+- Add support for Python 3.12, 3.13.
 
 3.0 (2023-03-31)
 ----------------
@@ -31,7 +30,7 @@ CHANGES
 2.1.1 (2019-03-26)
 ------------------
 
-- Fix: escape special HTML characters at ``Column.renderHeadCell``, 
+- Fix: escape special HTML characters at ``Column.renderHeadCell``,
   ``NameColumn.getName``, ``CheckBoxColumn`` name and value,
   ``RadioColumn`` name and value, ``LinkColumn`` href and link content.
 
