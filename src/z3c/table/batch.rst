@@ -384,7 +384,7 @@ the sorting concept:
   ...                                     'table-sortOn': 'table-number-1'})
   >>> requestBatchingTable = SimpleTable(container, batchingRequest)
   >>> requestBatchingTable.cssClassSortedOn = None
-  
+
 We also need to give the table a location and a name like we normally set up
 in traversing:
 
